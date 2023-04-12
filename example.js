@@ -1,7 +1,7 @@
-/*eslint no-unused-vars: "off"*/
-/*eslint no-unused-labels: "off"*/
-/*eslint no-inner-declarations: "off"*/
-/*eslint valid-jsdoc: "off"*/
+/* eslint no-unused-vars: "off" */
+/* eslint no-unused-labels: "off" */
+/* eslint no-inner-declarations: "off" */
+/* eslint valid-jsdoc: "off" */
 // @ts-check
 
 const {
