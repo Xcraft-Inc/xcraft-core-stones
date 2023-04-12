@@ -163,6 +163,20 @@ class ArrayType extends Type {
 }
 
 /**
+ * @template {AnyTypeOrShape[]} T
+ * @extends {Type<{[K in keyof T]: t<T[K]>}>}
+ */
+class TupleType extends Type {
+  /**
+   * @param {T} types
+   */
+  constructor(types) {
+    super(`tuple<${types.map((type) => type.name).join(',')}>`);
+    this.types = types;
+  }
+}
+
+/**
  * @template {ObjectShape} T
  * @extends {Type<objectType<T>>}
  */
@@ -200,7 +214,7 @@ class UnionType extends Type {
    * @param {T} types
    */
   constructor(types) {
-    super('union');
+    super(`union<${types.map((type) => type.name).join(',')}>`);
     this.types = types;
   }
 }
@@ -256,6 +270,13 @@ const option = (subType) => new OptionType(subType);
 const array = (subType) => new ArrayType(subType);
 
 /**
+ * @template {AnyTypeOrShape[]} T
+ * @param {T} types
+ * @returns {TupleType<T>}
+ */
+const tuple = (...types) => new TupleType(types);
+
+/**
  * @template {ObjectShape} T
  * @param {T} properties
  * @returns {ObjectType<T>}
@@ -302,6 +323,7 @@ module.exports = {
   value,
   option,
   array,
+  tuple,
   object,
   enumeration,
   union,

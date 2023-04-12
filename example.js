@@ -9,6 +9,7 @@ const {
   number,
   option,
   array,
+  tuple,
   object,
   map,
   enumeration,
@@ -179,6 +180,15 @@ example5: {
 
   /** @type {t<typeof CirclesArray>} */
   let circleListError = [{name: 'square', radius: '2'}]; // error
+
+  // Tuple
+
+  const CircleAndKind = tuple(CircleType, string);
+
+  /** @type {t<typeof CircleAndKind>} */
+  let circleAndKind1 = [circle1, 'small'];
+  circleAndKind1 = [circle2, 42, 'small']; // error
+  circleAndKind1 = [circle2, 'small', 'toto']; // error
 
   // Option
 
