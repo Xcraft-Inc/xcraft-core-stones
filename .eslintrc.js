@@ -15,7 +15,12 @@ module.exports = {
     node: true,
   },
   plugins: ['react', 'babel', 'jsdoc'],
-  extends: ['prettier', 'eslint:recommended', 'plugin:react/recommended'],
+  extends: [
+    'prettier',
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:jsdoc/recommended',
+  ],
   rules: {
     // Other rules
     'no-console': 'off',

@@ -1,13 +1,20 @@
+/* eslint jsdoc/check-tag-names: "off" */
+/* eslint jsdoc/no-undefined-types: "off" */
+/* eslint jsdoc/require-param-description: "off" */
+/* eslint jsdoc/require-returns-description: "off" */
+/* eslint jsdoc/valid-types: "off" */
 // @ts-check
 
 /**
  * Base class for any type definition
+ *
  * @template T
  */
 class Type {
   /**
    * Type parameter T must be used somewhere
    * so it is assigned to this empty private field
+   *
    * @type {T}
    */
   #type;
@@ -31,6 +38,7 @@ class AnyType extends Type {
 
 /**
  * Get the JS type of a base type definition
+ *
  * @template {AnyType} T
  * @typedef {T extends Type<infer U> ? U : never} jsType
  */
@@ -70,12 +78,14 @@ class AnyType extends Type {
  * Get the JS type of an object shape.
  * Note: Using "identity" is needed to display JS object types
  * and not a combination of other types.
+ *
  * @template {ObjectShape} S
  * @typedef {identity<{[k in keyof S]: t<S[k]>}>} objectType
  */
 
 /**
  * Get the JS type of a type defined as a class.
+ *
  * @template {ClassShape} T
  * @typedef {objectType<InstanceType<T>>} classType
  */
@@ -86,6 +96,7 @@ class AnyType extends Type {
 
 /**
  * Get the JS type of a complexe type definition.
+ *
  * @template T
  * @typedef {T extends AnyType ? jsType<T> : T extends ClassShape ? classType<T> : T extends ObjectShape ? objectType<T> : never} t
  */

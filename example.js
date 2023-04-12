@@ -1,6 +1,11 @@
-/* eslint no-unused-vars: "off" */
-/* eslint no-unused-labels: "off" */
+/* eslint jsdoc/check-tag-names: "off" */
+/* eslint jsdoc/no-undefined-types: "off" */
+/* eslint jsdoc/require-jsdoc: "off" */
+/* eslint jsdoc/require-param-description: "off" */
+/* eslint jsdoc/valid-types: "off" */
 /* eslint no-inner-declarations: "off" */
+/* eslint no-unused-labels: "off" */
+/* eslint no-unused-vars: "off" */
 // @ts-check
 
 const {
