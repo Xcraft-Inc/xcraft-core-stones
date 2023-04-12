@@ -1,4 +1,8 @@
+/*eslint no-unused-vars: "off"*/
+/*eslint no-unused-labels: "off"*/
+/*eslint no-inner-declarations: "off"*/
 // @ts-check
+
 const {
   value,
   string,
