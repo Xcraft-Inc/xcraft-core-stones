@@ -25,7 +25,7 @@ class Type {
  */
 class AnyType extends Type {
   constructor() {
-    super("any");
+    super('any');
   }
 }
 
@@ -104,7 +104,7 @@ class AnyType extends Type {
  */
 class BooleanType extends Type {
   constructor() {
-    super("boolean");
+    super('boolean');
   }
 }
 
@@ -113,7 +113,7 @@ class BooleanType extends Type {
  */
 class StringType extends Type {
   constructor() {
-    super("string");
+    super('string');
   }
 }
 
@@ -122,7 +122,7 @@ class StringType extends Type {
  */
 class NumberType extends Type {
   constructor() {
-    super("number");
+    super('number');
   }
 }
 
@@ -186,7 +186,7 @@ class EnumerationType extends Type {
    * @param {T} values
    */
   constructor(values) {
-    super("enumeration");
+    super('enumeration');
     this.values = values;
   }
 }
@@ -200,7 +200,7 @@ class UnionType extends Type {
    * @param {T} types
    */
   constructor(types) {
-    super("union");
+    super('union');
     this.types = types;
   }
 }
@@ -260,7 +260,7 @@ const array = (subType) => new ArrayType(subType);
  * @param {T} properties
  * @returns {ObjectType<T>}
  */
-const object = (properties) => new ObjectType("object", properties);
+const object = (properties) => new ObjectType('object', properties);
 
 /** @type {<const T extends readonly unknown[]>(...values: T) => EnumerationType<T>} */
 const enumeration = (...values) => new EnumerationType(values);

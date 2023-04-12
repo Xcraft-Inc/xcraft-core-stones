@@ -9,7 +9,7 @@ const {
   map,
   enumeration,
   union,
-} = require("./base-types.js");
+} = require('./base-types.js');
 /**
  * @template T
  * @typedef {import("./base-types.js").t<T>} t
@@ -19,7 +19,7 @@ example1: {
   const NameType = string;
 
   /** @type {t<typeof NameType>} */
-  let myName = "toto";
+  let myName = 'toto';
 
   /** @type {t<typeof NameType>} */
   let wrongName = 2; // error
@@ -31,17 +31,17 @@ example1: {
   const MayBeNameType2 = option(option(option(NameType)));
 
   /** @type {t<typeof MayBeNameType>} */
-  let myName2 = "toto";
+  let myName2 = 'toto';
 
   /** @type {t<typeof MayBeNameType2>} */
-  let myName3 = "toto";
+  let myName3 = 'toto';
 
   const NameListType = array(NameType);
 
   /** @type {t<typeof NameListType>} */
-  let names = ["toto", "tata", "titi"];
+  let names = ['toto', 'tata', 'titi'];
   /** @type {t<typeof NameListType>} */
-  let wrongNames = [1, "toto"]; // error
+  let wrongNames = [1, 'toto']; // error
 }
 
 example2: {
@@ -54,7 +54,7 @@ example2: {
 
   /** @type {t<typeof UserType>} */
   let toto = {
-    name: "Toto",
+    name: 'Toto',
     age: 12,
   };
 
@@ -69,7 +69,7 @@ example2: {
   /** @typedef {t<typeof UserType>} User3 */
 
   let tata = new User({
-    name: "Tata",
+    name: 'Tata',
     age: 11,
   });
 
@@ -78,12 +78,12 @@ example2: {
   }
 
   let titi = User2({
-    name: "Titi",
+    name: 'Titi',
     age: 11,
   });
 
   let users = [toto, tata, titi];
-  let user = users.find((user) => user.name === "Toto");
+  let user = users.find((user) => user.name === 'Toto');
   console.log(user.name); // user could be undefined
 }
 
@@ -100,11 +100,11 @@ example3: {
 
   /** @type {t<typeof NameAndAddressType>} */
   let test = {
-    name: "Toto",
+    name: 'Toto',
     address: {
       // postalCode: 1000,
-      postalCode: "1000", // error
-      townName: "Lausanne",
+      postalCode: '1000', // error
+      townName: 'Lausanne',
     },
   };
 }
@@ -137,32 +137,32 @@ example4: {
   }
 
   const test = new NameAndAddress({
-    name: "Toto",
+    name: 'Toto',
     address: {
       // postalCode: 1000,
-      postalCode: "1000", // error
-      townName: "Lausanne",
+      postalCode: '1000', // error
+      townName: 'Lausanne',
     },
   });
 }
 
 example5: {
   class CircleType {
-    name = value("circle");
+    name = value('circle');
     radius = number;
   }
 
   /** @type {t<typeof CircleType>} */
   let circle1 = {
-    name: "circle",
+    name: 'circle',
     radius: 2,
   };
 
-  circle1.name = "square"; // error
+  circle1.name = 'square'; // error
 
   /** @type {t<typeof CircleType>} */
   let circle2 = {
-    name: "circle",
+    name: 'circle',
     radius: 100,
   };
 
@@ -174,7 +174,7 @@ example5: {
   let circleList = [circle1, circle2];
 
   /** @type {t<typeof CirclesArray>} */
-  let circleListError = [{ name: "square", radius: "2" }]; // error
+  let circleListError = [{name: 'square', radius: '2'}]; // error
 
   // Option
 
@@ -186,22 +186,22 @@ example5: {
 
   // Enum
 
-  const ShapeNameType = enumeration("circle", "square", "triangle");
+  const ShapeNameType = enumeration('circle', 'square', 'triangle');
 
   /** @type {t<typeof ShapeNameType>} */
-  let shapeName = "circle";
-  shapeName = "square";
-  shapeName = "wrong"; // error
+  let shapeName = 'circle';
+  shapeName = 'square';
+  shapeName = 'wrong'; // error
 
   // Union
 
   class SquareType {
-    name = value("square");
+    name = value('square');
     length = number;
   }
 
   let square1 = {
-    name: "square",
+    name: 'square',
     length: 10,
   };
 
@@ -217,8 +217,8 @@ example5: {
 
   /** @type {t<typeof CirclesMap>} */
   let kindOfCircles = new Map();
-  kindOfCircles.set("small", circle1);
-  kindOfCircles.set("large", circle2);
+  kindOfCircles.set('small', circle1);
+  kindOfCircles.set('large', circle2);
 
-  kindOfCircles.set("error", square1); // error
+  kindOfCircles.set('error', square1); // error
 }
