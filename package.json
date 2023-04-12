@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/Xcraft-Inc/xcraft-core-stones/issues"
   },
-  "homepage": "https://github.com/Xcraft-Inc/xcraft-core-stones#readme"
+  "homepage": "https://github.com/Xcraft-Inc/xcraft-core-stones#readme",
+  "devDependencies": {
+    "prettier": "2.0.4",
+    "xcraft-dev-prettier": "^2.0.0",
+    "xcraft-dev-rules": "^2.0.0"
+  }
 }
