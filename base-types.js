@@ -1,3 +1,4 @@
+/* eslint valid-jsdoc: "off" */
 // @ts-check
 
 /**
