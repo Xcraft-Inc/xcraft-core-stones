@@ -10,17 +10,12 @@ module.exports = {
   },
   env: {
     browser: true,
-    es2020: true,
+    es2022: true,
     mocha: true,
     node: true,
   },
   plugins: ['react', 'babel', 'jsdoc'],
-  extends: [
-    'prettier',
-    'eslint:recommended',
-    'plugin:react/recommended',
-    'plugin:jsdoc/recommended',
-  ],
+  extends: ['prettier', 'eslint:recommended', 'plugin:react/recommended'],
   rules: {
     // Other rules
     'no-console': 'off',
