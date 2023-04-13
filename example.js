@@ -241,3 +241,27 @@ example5: {
 
   kindOfCircles.set('error', square1); // error
 }
+
+example7: {
+  class UserType {
+    name = string;
+    age = number;
+  }
+
+  class User {
+    /** @typedef {t<UserType>} user */
+
+    /** @type {user["name"]} */
+    name = '';
+    /** @type {user["age"]} */
+    age;
+
+    test() {
+      this.name = 'toto';
+      this.age = '42'; // error
+    }
+  }
+
+  let u = new User();
+  u.age = '42'; // error
+}
