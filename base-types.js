@@ -70,17 +70,29 @@ class AnyType extends Type {
  */
 
 /**
+ * Ensures the type is displayed as an object and not a combination of other types.
+ *
  * @template T
  * @typedef {identity<{[k in keyof T]: T[k]}>} flatten
  */
 
 /**
+ * @template T
+ * @typedef {{[K in keyof T] : undefined extends T[K] ? never : K}[keyof T]} requiredKeys
+ */
+
+/**
+ * Set optional modifier to keys whose value can be undefined
+ *
+ * @template T
+ * @typedef {Partial<T> & {[K in requiredKeys<T>] : T[K]}} markOptionalKeys
+ */
+
+/**
  * Get the JS type of an object shape.
- * Note: Using "identity" is needed to display JS object types
- * and not a combination of other types.
  *
  * @template {ObjectShape} S
- * @typedef {identity<{[k in keyof S]: t<S[k]>}>} objectType
+ * @typedef {flatten<markOptionalKeys<{[k in keyof S]: t<S[k]>}>>} objectType
  */
 
 /**
