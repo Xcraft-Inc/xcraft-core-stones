@@ -203,6 +203,20 @@ example5: {
   let optionalCircle = undefined;
   optionalCircle = circle1;
 
+  const ObjectWithOptionType = object({
+    required: string,
+    optional: option(string),
+  });
+
+  /** @type {t<typeof ObjectWithOptionType>} */
+  let objOpt = {
+    required: 'req',
+    optional: 'opt',
+  };
+  objOpt = {
+    required: 'req',
+  };
+
   // Enum
 
   const ShapeNameType = enumeration('circle', 'square', 'triangle');
