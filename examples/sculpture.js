@@ -1,45 +1,43 @@
 /* eslint-disable no-unused-labels */
 // @ts-check
 
-const {number, string, array, option} = require('../base-types.js');
-const {sculpt, Sculpt} = require('../sculpt.js');
+const {number, string} = require('../base-types.js');
+const {Sculpt, sculpt} = require('../sculpt.js');
 
-/**
- * @template T
- * @typedef {import("../base-types.js").t<T>} t
- */
-
-class ValinorType {
+class UserType {
   name = string;
   age = number;
 }
 
-// Old
+example2: {
+  const User = sculpt(UserType);
 
-/** @type {t<ValinorType>} */
-let state = {
-  name: 'toto',
-  age: 12,
-};
+  let user = User({
+    name: 'toto',
+    age: 12,
+  });
 
-console.log(state);
+  user.name = 'tata';
+  user.age = '11'; // error
 
-// New
+  console.log(user);
+}
 
-const Valinor = sculpt(ValinorType);
+example1: {
+  class User extends Sculpt(UserType) {
+    sayHello() {
+      console.log(`Hello ${this.name}`);
+    }
+  }
 
-let state2 = new Valinor({
-  name: 'toto',
-  age: 12,
-});
+  let user = new User({
+    name: 'toto',
+    age: 12,
+  });
 
-console.log(state2);
+  user.name = 'tata';
+  user.age = '11'; // error
 
-class Valinor2 extends Sculpt(ValinorType) {}
-
-let state3 = new Valinor2({
-  name: 'toto',
-  age: 12,
-});
-
-console.log(state3);
+  console.log(user);
+  user.sayHello();
+}
