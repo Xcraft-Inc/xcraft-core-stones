@@ -1,4 +1,6 @@
 const {Check} = require('./check.js');
+const errorMessage = require('./error-message.js');
+const fullTypeName = require('./full-type-name.js');
 /**
  * @template T
  * @typedef {import("./base-types.js").t<T>} t
@@ -16,7 +18,10 @@ const {Check} = require('./check.js');
 function parse(value, type) {
   const check = new Check();
   if (!check.type(value, type)) {
-    throw check.error();
+    const error =
+      `Error while parsing ${fullTypeName(type)}\n` +
+      check.errors.map((err) => errorMessage(err)).join('\n');
+    throw new Error(error);
   }
   return value;
 }

@@ -5,7 +5,6 @@
 /* eslint-disable jsdoc/valid-types */
 // @ts-check
 
-const errorMessage = require('./error-message.js');
 const {isAnyType, isClassShape, isClassType} = require('./base-types.js');
 /**
  * @template T
@@ -71,12 +70,6 @@ class Check {
 
   get ok() {
     return this.errors.length === 0;
-  }
-
-  error() {
-    return new Error(
-      `Parse error: ${this.errors.map((err) => errorMessage(err))}`
-    );
   }
 
   /**
