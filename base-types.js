@@ -124,6 +124,36 @@ class AnyType extends Type {
 //  * @typedef {T extends AnyType ? jsType<T> : T extends ClassShape ? classType<T> : objectType<T>} t
 //  */
 
+// ## Functions to differentiate types ##
+
+/**
+ * @param {AnyTypeOrShape} type
+ * @returns {type is AnyType}
+ */
+function isAnyType(type) {
+  return type instanceof Type;
+}
+
+/**
+ * @param {Exclude<AnyTypeOrShape, AnyType>} type
+ * @returns {type is ClassType}
+ */
+function isClassType(type) {
+  return (
+    typeof type === 'function' &&
+    type.prototype &&
+    type.prototype instanceof Type
+  );
+}
+
+/**
+ * @param {Exclude<AnyTypeOrShape, AnyType | ClassType>} type
+ * @returns {type is ClassShape}
+ */
+function isClassShape(type) {
+  return typeof type === 'function' && type.prototype;
+}
+
 // ## Type classes ##
 
 /**
@@ -342,6 +372,10 @@ module.exports = {
   EnumerationType,
   UnionType,
   MapType,
+
+  isAnyType,
+  isClassType,
+  isClassShape,
 
   any,
   boolean,
