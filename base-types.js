@@ -55,8 +55,12 @@ class AnyType extends Type {
 
 // Variant that does not work if the shape is a class
 // /**
-//  * @typedef {{[k: string]: AnyType}} ObjectShape
+//  * @typedef {{[k: string]: AnyTypeOrShape}} ObjectShape
 //  */
+
+/**
+ * @typedef {abstract new (...args: any) => AnyType} ClassType
+ */
 
 /**
  * @typedef {abstract new (...args: any) => ObjectShape} ClassShape
@@ -103,14 +107,14 @@ class AnyType extends Type {
  */
 
 /**
- * @typedef {AnyType | ClassShape | ObjectShape} AnyTypeOrShape
+ * @typedef {AnyType | ClassType | ClassShape | ObjectShape} AnyTypeOrShape
  */
 
 /**
  * Get the JS type of a complexe type definition.
  *
  * @template T
- * @typedef {T extends AnyType ? jsType<T> : T extends ClassShape ? classType<T> : T extends ObjectShape ? objectType<T> : never} t
+ * @typedef {T extends AnyType ? jsType<T> : T extends ClassType ? jsType<InstanceType<T>>: T extends ClassShape ? classType<T> : T extends ObjectShape ? objectType<T> : never} t
  */
 
 // Variant constrained to AnyTypeOrShape but more complicated to import
