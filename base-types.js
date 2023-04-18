@@ -277,6 +277,15 @@ class UnionType extends Type {
 }
 
 /**
+ * @extends {Type<AnyTypeOrShape>}
+ */
+class TypeType extends Type {
+  constructor() {
+    super('type');
+  }
+}
+
+/**
  * @template {AnyTypeOrShape} K
  * @template {AnyTypeOrShape} V
  * @extends {Type<Map<t<K>, t<V>>>}
@@ -350,6 +359,8 @@ const enumeration = (...values) => new EnumerationType(values);
  */
 const union = (...types) => new UnionType(types);
 
+const type = new TypeType();
+
 /**
  * @template {AnyTypeOrShape} K
  * @template {AnyTypeOrShape} V
@@ -388,5 +399,6 @@ module.exports = {
   object,
   enumeration,
   union,
+  type,
   map,
 };
