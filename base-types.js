@@ -291,7 +291,7 @@ class TupleType extends Type {
     if (!check.array(value)) {
       return;
     }
-    if (!check.equal(value.length, this.types.length, 'bad size')) {
+    if (!check.equal(value.length, this.types.length, 'bad tuple size')) {
       return;
     }
     for (const [index, item] of value.entries()) {
@@ -336,7 +336,7 @@ class EnumerationType extends Type {
 
   /** @type {Type["check"]} */
   check(value, check) {
-    check.true(this.values.includes(value), 'enumeration-mismatch', {
+    check.true(this.values.includes(value), 'enumeration mismatch', {
       actual: value,
       expectedValues: this.values,
     });
@@ -355,6 +355,11 @@ class UnionType extends Type {
     super(`union<${types.map((type) => type.name).join(',')}>`);
     this.types = types;
   }
+
+  /** @type {Type["check"]} */
+  check(value, check) {
+    check.oneOfTypes(value, this.types);
+  }
 }
 
 /**
@@ -363,6 +368,11 @@ class UnionType extends Type {
 class TypeType extends Type {
   constructor() {
     super('type');
+  }
+
+  /** @type {Type["check"]} */
+  check(value, check) {
+    throw new Error('Not implemented');
   }
 }
 
