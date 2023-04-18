@@ -1,3 +1,4 @@
+const {Check} = require('./check.js');
 /**
  * @template T
  * @typedef {import("./base-types.js").t<T>} t
@@ -13,7 +14,10 @@
  * @returns {t<T>}
  */
 function parse(value, type) {
-  // TODO
+  const check = new Check();
+  if (!check.type(value, type)) {
+    throw check.error();
+  }
   return value;
 }
 

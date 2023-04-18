@@ -6,6 +6,10 @@
 // @ts-check
 
 /**
+ * @typedef {import("./check.js").Check} Check
+ */
+
+/**
  * Base class for any type definition
  *
  * @template T
@@ -25,6 +29,16 @@ class Type {
   constructor(name) {
     this.name = name;
   }
+
+  /**
+   * @param {any} value
+   * @param {Check} check
+   */
+  check(value, check) {
+    value;
+    check;
+    throw new Error("Method 'check' must be implemented");
+  }
 }
 
 /**
@@ -34,6 +48,9 @@ class AnyType extends Type {
   constructor() {
     super('any');
   }
+
+  /** @type {Type["check"]} */
+  check() {}
 }
 
 /**
@@ -59,11 +76,11 @@ class AnyType extends Type {
 //  */
 
 /**
- * @typedef {abstract new (...args: any) => AnyType} ClassType
+ * @typedef {new (...args: any) => AnyType} ClassType
  */
 
 /**
- * @typedef {abstract new (...args: any) => ObjectShape} ClassShape
+ * @typedef {new (...args: any) => ObjectShape} ClassShape
  */
 
 // ## Type helpers ##
@@ -163,6 +180,11 @@ class BooleanType extends Type {
   constructor() {
     super('boolean');
   }
+
+  /** @type {Type["check"]} */
+  check(value, check) {
+    check.typeOf(value, 'boolean');
+  }
 }
 
 /**
@@ -172,6 +194,11 @@ class StringType extends Type {
   constructor() {
     super('string');
   }
+
+  /** @type {Type["check"]} */
+  check(value, check) {
+    check.typeOf(value, 'string');
+  }
 }
 
 /**
@@ -180,6 +207,11 @@ class StringType extends Type {
 class NumberType extends Type {
   constructor() {
     super('number');
+  }
+
+  /** @type {Type["check"]} */
+  check(value, check) {
+    check.typeOf(value, 'number');
   }
 }
 
@@ -193,6 +225,11 @@ class ValueType extends Type {
     super(`value<${value}>`);
     this.value = value;
   }
+
+  /** @type {Type["check"]} */
+  check(value, check) {
+    check.equal(value, this.value, 'bad value');
+  }
 }
 
 /**
@@ -205,6 +242,13 @@ class OptionType extends Type {
     super(`option<${subType.name}>`);
     this.subType = subType;
   }
+
+  /** @type {Type["check"]} */
+  check(value, check) {
+    if (value !== undefined) {
+      check.type(value, this.subType);
+    }
+  }
 }
 
 /**
@@ -216,6 +260,16 @@ class ArrayType extends Type {
   constructor(valuesType) {
     super(`array<${valuesType.name}>`);
     this.valuesType = valuesType;
+  }
+
+  /** @type {Type["check"]} */
+  check(value, check) {
+    if (!check.array(value)) {
+      return;
+    }
+    for (const [index, item] of value.entries()) {
+      check.typeWithPath(item, this.valuesType, index);
+    }
   }
 }
 
@@ -230,6 +284,20 @@ class TupleType extends Type {
   constructor(types) {
     super(`tuple<${types.map((type) => type.name).join(',')}>`);
     this.types = types;
+  }
+
+  /** @type {Type["check"]} */
+  check(value, check) {
+    if (!check.array(value)) {
+      return;
+    }
+    if (!check.equal(value.length, this.types.length, 'bad size')) {
+      return;
+    }
+    for (const [index, item] of value.entries()) {
+      const type = this.types[index];
+      check.typeWithPath(item, type, index);
+    }
   }
 }
 
@@ -246,6 +314,11 @@ class ObjectType extends Type {
     super(name);
     this.properties = properties;
   }
+
+  /** @type {Type["check"]} */
+  check(value, check) {
+    check.shape(value, this.properties);
+  }
 }
 
 /**
@@ -259,6 +332,14 @@ class EnumerationType extends Type {
   constructor(values) {
     super('enumeration');
     this.values = values;
+  }
+
+  /** @type {Type["check"]} */
+  check(value, check) {
+    check.true(this.values.includes(value), 'enumeration-mismatch', {
+      actual: value,
+      expectedValues: this.values,
+    });
   }
 }
 
@@ -299,6 +380,17 @@ class MapType extends Type {
     super(`map<${keysType.name},${valuesType.name}>`);
     this.keysType = keysType;
     this.valuesType = valuesType;
+  }
+
+  /** @type {Type["check"]} */
+  check(value, check) {
+    if (!check.object(value)) {
+      return;
+    }
+    for (const [k, v] of Object.entries(value)) {
+      check.typeWithPath(k, this.keysType, `[key=${k}]`);
+      check.typeWithPath(v, this.valuesType, k);
+    }
   }
 }
 

@@ -1,3 +1,4 @@
+const {Check} = require('./check.js');
 /**
  * @template T
  * @typedef {import("./base-types.js").t<T>} t
@@ -13,7 +14,9 @@
  * @returns {value is t<T>}
  */
 function validate(value, type) {
-  // TODO
+  const check = new Check();
+  check.type(value, type);
+  return check.ok;
 }
 
 module.exports = validate;
