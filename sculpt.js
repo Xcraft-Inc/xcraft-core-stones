@@ -9,7 +9,7 @@
 /**
  * @template {AnyTypeOrShape} T
  * @param {T} type
- * @return {(_: t<T>) => t<T>}
+ * @return {(_?: t<T>) => t<T>}
  */
 function sculpt(type) {
   type;
@@ -21,7 +21,7 @@ function sculpt(type) {
 /**
  * @template {AnyTypeOrShape} T
  * @param {T} type
- * @return {new (_: t<T>) => t<T>}
+ * @return {new (_?: t<T>) => t<T>}
  */
 function Sculpt(type) {
   type;
