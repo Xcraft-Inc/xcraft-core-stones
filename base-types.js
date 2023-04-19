@@ -98,22 +98,40 @@ class AnyType extends Type {
  */
 
 /**
+ * Get the keys of T that are not one of K
+ *
  * @template T
- * @typedef {{[K in keyof T] : undefined extends T[K] ? never : K}[keyof T]} requiredKeys
+ * @template {keyof T} K
+ * @typedef {Exclude<keyof T, K>} otherKeys
+ */
+
+/**
+ * Set optional modifier to some keys of an object
+ *
+ * @template T
+ * @template {keyof T} K
+ * @typedef {flatten<Partial<T> & {[O in otherKeys<T, K>] : T[O]}>} markOptional
+ */
+
+/**
+ * Get the keys whose value can be undefined
+ *
+ * @template T
+ * @typedef {{[K in keyof T] : undefined extends T[K] ? K : never}[keyof T]} undefinedKeys
  */
 
 /**
  * Set optional modifier to keys whose value can be undefined
  *
  * @template T
- * @typedef {Partial<T> & {[K in requiredKeys<T>] : T[K]}} markOptionalKeys
+ * @typedef {markOptional<T, undefinedKeys<T>>} markUndefinedOptional
  */
 
 /**
  * Get the JS type of an object shape.
  *
  * @template {ObjectShape} S
- * @typedef {flatten<markOptionalKeys<{[k in keyof S]: t<S[k]>}>>} objectType
+ * @typedef {markUndefinedOptional<{[k in keyof S]: t<S[k]>}>} objectType
  */
 
 /**
