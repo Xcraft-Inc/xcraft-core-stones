@@ -19,10 +19,10 @@ const {
   map,
   enumeration,
   union,
-} = require('./base-types.js');
+} = require('../base-types.js');
 /**
  * @template T
- * @typedef {import("./base-types.js").t<T>} t
+ * @typedef {import("../base-types.js").t<T>} t
  */
 
 example1: {
