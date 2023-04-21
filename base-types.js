@@ -109,9 +109,22 @@ class AnyType extends Type {
  * Set optional modifier to some keys of an object
  *
  * @template T
- * @template {keyof T} K
- * @typedef {flatten<Partial<T> & {[O in otherKeys<T, K>] : T[O]}>} markOptional
+ * @template {keyof T} U
+ * @typedef {flatten<{[K in keyof T]? : unknown} & {[K in otherKeys<T, U>] : T[K]} & {[K in U]? : T[K]}>} markOptional
  */
+
+// Variant that displays strange types for branded types in objects
+// Example:
+// /** @typedef {string | {readonly __type: unique symbol}} brandedString */
+// /** @typedef {markOptional<{foo:brandedString}, never>} test */
+// "test" is "foo: (brandedString | undefined) & brandedString" instead of "foo: brandedString"
+// /**
+//  * Set optional modifier to some keys of an object
+//  *
+//  * @template T
+//  * @template {keyof T} K
+//  * @typedef {flatten<Partial<T> & {[O in otherKeys<T, K>] : T[O]}>} markOptional
+//  */
 
 /**
  * Get the keys whose value can be undefined
