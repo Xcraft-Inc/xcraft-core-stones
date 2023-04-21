@@ -9,7 +9,9 @@ class UserType {
   age = number;
 }
 
-example2: {
+example1: {
+  console.log('# Example 1');
+
   const User = sculpt(UserType);
 
   let user = User({
@@ -17,13 +19,20 @@ example2: {
     age: 12,
   });
 
+  console.log(user.name);
+  if (!user.name) {
+    throw new Error('Bad user');
+  }
+
   user.name = 'tata';
   user.age = '11'; // error
 
   console.log(user);
 }
 
-example1: {
+example2: {
+  console.log('# Example 2');
+
   class User extends Sculpt(UserType) {
     sayHello() {
       console.log(`Hello ${this.name}`);
@@ -35,9 +44,35 @@ example1: {
     age: 12,
   });
 
+  console.log(user.name);
+  if (!user.name) {
+    throw new Error('Bad user');
+  }
+
   user.name = 'tata';
   user.age = '11'; // error
 
   console.log(user);
   user.sayHello();
+}
+
+example3: {
+  console.log('# Example 3');
+
+  const User = Sculpt(UserType);
+
+  let user = new User({
+    name: 'toto',
+    age: 12,
+  });
+
+  console.log(user.name);
+  if (!user.name) {
+    throw new Error('Bad user');
+  }
+
+  user.name = 'tata';
+  user.age = '11'; // error
+
+  console.log(user);
 }

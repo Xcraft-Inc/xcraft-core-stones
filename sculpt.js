@@ -26,7 +26,7 @@ function sculpt(type) {
 function Sculpt(type) {
   type;
   return function (_) {
-    return _;
+    Object.assign(this, _);
   };
 }
 
