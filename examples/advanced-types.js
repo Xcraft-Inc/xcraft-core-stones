@@ -45,9 +45,9 @@ example2: {
 
   let obj = {
     dateTime: '2020-01-02T03:04:05.670Z',
-    date: '2020-01-02Z',
+    date: '2020-01-02',
     time: '03:04:05.670Z',
-    yearMonth: '2020-01Z',
+    yearMonth: '2020-01',
   };
 
   try {

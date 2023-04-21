@@ -3,14 +3,14 @@
 /* eslint-disable jsdoc/require-param-description */
 // @ts-check
 
-const {Type, StringType} = require('../base-types.js');
+const {Type} = require('../base-types.js');
 const parse = require('../parse.js');
+
 /**
  * @template T
- * @typedef {import("../base-types.js").t<T>} t
+ * @extends {Type<T>}
  */
-
-class PatternType extends StringType {
+class PatternType extends Type {
   name = this.constructor.name;
   pattern;
 
@@ -18,7 +18,7 @@ class PatternType extends StringType {
    * @param {string | RegExp} [pattern]
    */
   constructor(pattern) {
-    super();
+    super('string');
     if (typeof pattern === 'string') {
       pattern = new RegExp(pattern);
     }

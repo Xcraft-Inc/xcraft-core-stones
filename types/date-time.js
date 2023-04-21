@@ -1,5 +1,14 @@
+/* eslint-disable jsdoc/check-tag-names */
+/* eslint-disable no-unused-vars */
+/* eslint-disable jsdoc/valid-types */
+const {Type} = require('../base-types.js');
 const {PatternType} = require('./pattern.js');
 
+/** @typedef {{readonly __type: unique symbol}} ø */
+
+/**
+ * @extends {PatternType<string | ('YYYY-MM-DDTHH:mm:ss.sssZ' & ø)>}
+ */
 class DateTimeType extends PatternType {
   name = 'dateTime';
   // Regex from https://www.w3.org/TR/xmlschema11-2/#dateTime

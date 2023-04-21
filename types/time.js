@@ -1,5 +1,14 @@
+/* eslint-disable jsdoc/check-tag-names */
+/* eslint-disable no-unused-vars */
+/* eslint-disable jsdoc/valid-types */
+const {Type} = require('../base-types.js');
 const {PatternType} = require('./pattern.js');
 
+/** @typedef {{readonly __type: unique symbol}} ø */
+
+/**
+ * @extends {PatternType<string | ('HH:mm:ss.sssZ' & ø)>}
+ */
 class TimeType extends PatternType {
   name = 'time';
   // Regex from https://www.w3.org/TR/xmlschema11-2/#time
