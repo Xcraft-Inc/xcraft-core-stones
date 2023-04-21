@@ -1,7 +1,6 @@
 /* eslint-disable jsdoc/check-tag-names */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsdoc/valid-types */
-const {Type} = require('../base-types.js');
 const {PatternType} = require('./pattern.js');
 
 /** @typedef {{readonly __type: unique symbol}} ø */
