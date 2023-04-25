@@ -19,6 +19,7 @@ const {
   map,
   enumeration,
   union,
+  objectMap,
 } = require('../base-types.js');
 /**
  * @template T
@@ -254,6 +255,16 @@ example5: {
   kindOfCircles.set('large', circle2);
 
   kindOfCircles.set('error', square1); // error
+
+  // Object Map
+
+  const CirclesMap2 = objectMap(CircleType);
+
+  /** @type {t<typeof CirclesMap2>} */
+  let kindOfCircles2 = {};
+  kindOfCircles2.small = circle1;
+  kindOfCircles2.large = circle2;
+  kindOfCircles2.error = square1; // error
 }
 
 example7: {

@@ -435,6 +435,30 @@ class MapType extends Type {
   }
 }
 
+/**
+ * @template {AnyTypeOrShape} V
+ * @extends {Type<{[key: string]: t<V>}>}
+ */
+class ObjectMapType extends Type {
+  /**
+   * @param {V} valuesType
+   */
+  constructor(valuesType) {
+    super(`object<${valuesType.name}>`);
+    this.valuesType = valuesType;
+  }
+
+  /** @type {Type["check"]} */
+  check(value, check) {
+    if (!check.object(value)) {
+      return;
+    }
+    for (const [k, v] of Object.entries(value)) {
+      check.typeWithPath(v, this.valuesType, k);
+    }
+  }
+}
+
 // ## Type instances ##
 
 const any = new AnyType();
@@ -503,6 +527,13 @@ const type = new TypeType();
  */
 const map = (keysType, valuesType) => new MapType(keysType, valuesType);
 
+/**
+ * @template {AnyTypeOrShape} V
+ * @param {V} valuesType
+ * @returns {ObjectMapType<V>}
+ */
+const objectMap = (valuesType) => new ObjectMapType(valuesType);
+
 module.exports = {
   Type,
   AnyType,
@@ -534,4 +565,5 @@ module.exports = {
   union,
   type,
   map,
+  objectMap,
 };
