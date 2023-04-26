@@ -7,6 +7,11 @@
  */
 module.exports = {
   ...require('./base-types.js'),
+  ...require('./types/date-time.js'),
+  ...require('./types/date.js'),
+  ...require('./types/pattern.js'),
+  ...require('./types/time.js'),
+  ...require('./types/year-month.js'),
   ...require('./check.js'),
   parse: require('./parse.js'),
   ...require('./sculpt.js'),
