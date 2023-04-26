@@ -106,11 +106,18 @@ class AnyType extends Type {
  */
 
 /**
+ * Get the keys whose value can be undefined
+ *
+ * @template T
+ * @typedef {{[K in keyof T] : undefined extends T[K] ? K : never}[keyof T]} undefinedKeys
+ */
+
+/**
  * Set optional modifier to some keys of an object
  *
  * @template T
  * @template {keyof T} U
- * @typedef {flatten<{[K in keyof T]? : unknown} & {[K in otherKeys<T, U>] : T[K]} & {[K in U]? : T[K]}>} markOptional
+ * @typedef {flatten<{[K in keyof T]? : T[K]} & {[K in otherKeys<T, U | undefinedKeys<T>>] : T[K]}>} markOptional
  */
 
 // Variant that displays strange types for branded types in objects
@@ -125,13 +132,6 @@ class AnyType extends Type {
 //  * @template {keyof T} K
 //  * @typedef {flatten<Partial<T> & {[O in otherKeys<T, K>] : T[O]}>} markOptional
 //  */
-
-/**
- * Get the keys whose value can be undefined
- *
- * @template T
- * @typedef {{[K in keyof T] : undefined extends T[K] ? K : never}[keyof T]} undefinedKeys
- */
 
 /**
  * Set optional modifier to keys whose value can be undefined
