@@ -5,6 +5,11 @@
 /**
  * @typedef {import("./base-types.js").AnyTypeOrShape} AnyTypeOrShape
  */
+/**
+ * @template T
+ * @template {keyof T} U
+ * @typedef {import("./base-types.js").markOptional<T,U>} markOptional
+ */
 module.exports = {
   ...require('./base-types.js'),
   ...require('./types/date-time.js'),
