@@ -188,7 +188,24 @@ class Check {
    * @returns {value is Array}
    */
   array(value) {
-    return this.true(Array.isArray(value), 'bad type');
+    const ok = Array.isArray(value);
+    if (!ok) {
+      let actual;
+      if (value && typeof value === 'object') {
+        actual = Object.getPrototypeOf(value).constructor.name;
+      } else if (value === null) {
+        actual = value;
+      } else {
+        actual = typeof value;
+      }
+      this.#pushError({
+        errorName: 'not an array',
+        info: {
+          actual,
+        },
+      });
+    }
+    return ok;
   }
 
   /**
