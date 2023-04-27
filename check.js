@@ -20,6 +20,24 @@ const {isAnyType, isClassShape, isClassType} = require('./base-types.js');
  * @typedef {import("./check-error.js").CheckError} CheckError
  */
 
+/**
+ * @param {any} value
+ * @returns {string}
+ */
+function getTypeName(value) {
+  if (value === null) {
+    return 'null';
+  }
+  if (typeof value === 'object') {
+    const constructorName = Object.getPrototypeOf(value).constructor.name;
+    if (constructorName !== 'Object') {
+      return constructorName;
+    }
+    return 'object';
+  }
+  return typeof value;
+}
+
 class Check {
   /** @type {CheckError[]} */
   errors = [];
@@ -180,7 +198,17 @@ class Check {
    * @returns {boolean}
    */
   typeOf(actual, expected) {
-    return this.equal(typeof actual, expected, 'bad type');
+    const ok = typeof actual === expected;
+    if (!ok) {
+      this.#pushError({
+        errorName: 'bad type',
+        info: {
+          actual: getTypeName(actual),
+          expected,
+        },
+      });
+    }
+    return ok;
   }
 
   /**
@@ -190,18 +218,10 @@ class Check {
   array(value) {
     const ok = Array.isArray(value);
     if (!ok) {
-      let actual;
-      if (value && typeof value === 'object') {
-        actual = Object.getPrototypeOf(value).constructor.name;
-      } else if (value === null) {
-        actual = value;
-      } else {
-        actual = typeof value;
-      }
       this.#pushError({
         errorName: 'not an array',
         info: {
-          actual,
+          actual: getTypeName(value),
         },
       });
     }
