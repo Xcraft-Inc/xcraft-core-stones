@@ -20,6 +20,7 @@ const {
   enumeration,
   union,
   objectMap,
+  any,
 } = require('../base-types.js');
 /**
  * @template T
@@ -265,6 +266,34 @@ example5: {
   kindOfCircles2.small = circle1;
   kindOfCircles2.large = circle2;
   kindOfCircles2.error = square1; // error
+
+  // Any array and any object
+  class AnyTestType {
+    list1 = array;
+    list2 = array(any);
+    list3 = array(string);
+    props1 = object;
+    props2 = object({
+      name: string,
+      age: number,
+    });
+  }
+
+  /** @type {t<typeof AnyTestType>} */
+  let anyTest = {
+    list1: ['test'],
+    list2: ['test'],
+    list3: ['test'],
+    props1: {name: 'toto', age: 12},
+    props2: {name: 'toto', age: 12},
+  };
+  anyTest = {
+    list1: [123],
+    list2: [123],
+    list3: [123], // error
+    props1: {key: 'value'},
+    props2: {key: 'value'}, // error
+  };
 }
 
 example7: {
