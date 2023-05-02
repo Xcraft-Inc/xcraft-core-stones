@@ -205,18 +205,22 @@ example5: {
   let optionalCircle = undefined;
   optionalCircle = circle1;
 
-  const ObjectWithOptionType = object({
-    required: string,
-    optional: option(string),
-  });
+  class ObjectWithOptionType {
+    required = string;
+    optional = option(string);
+  }
 
-  /** @type {t<typeof ObjectWithOptionType>} */
-  let objOpt = {
-    required: 'req',
-    optional: 'opt',
+  /** @type {t<ObjectWithOptionType>} */
+  let testObj = {
+    required: 'toto',
+    optional: 'tata',
   };
-  objOpt = {
-    required: 'req',
+  testObj = {
+    required: 'toto',
+  };
+  testObj = {
+    required: 'toto',
+    optional: null,
   };
 
   // Enum
