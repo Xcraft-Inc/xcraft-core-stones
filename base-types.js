@@ -267,7 +267,7 @@ class ValueType extends Type {
 
 /**
  * @template {AnyTypeOrShape} T
- * @extends {Type<t<T> | undefined>}
+ * @extends {Type<t<T> | undefined | null>}
  */
 class OptionType extends Type {
   /** @param {T} subType */
