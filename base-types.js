@@ -5,6 +5,8 @@
 /* eslint jsdoc/valid-types: "off" */
 // @ts-check
 
+const setProtoAndProps = require('./set-proto-and-props.js');
+
 /**
  * @typedef {import("./check.js").Check} Check
  */
@@ -459,6 +461,28 @@ class ObjectMapType extends Type {
   }
 }
 
+/**
+ * @extends {ArrayType<AnyType>}
+ */
+class AnyArrayType extends ArrayType {
+  constructor() {
+    super(any);
+  }
+}
+
+/**
+ * @typedef {{[K in keyof any]: any}} օbject
+ */
+
+/**
+ * @extends {Type<օbject>}
+ */
+class AnyObjectType extends Type {
+  constructor() {
+    super('object');
+  }
+}
+
 // ## Type instances ##
 
 const any = new AnyType();
@@ -486,11 +510,11 @@ const value = (value) => new ValueType(value);
 const option = (subType) => new OptionType(subType);
 
 /**
- * @template {AnyTypeOrShape} T
- * @param {T} subType
- * @returns {ArrayType<T>}
+ * @type {AnyArrayType & (<T extends AnyTypeOrShape>(valuesType: T) => ArrayType<T>)}
  */
-const array = (subType) => new ArrayType(subType);
+const array = setProtoAndProps(function array(valuesType) {
+  return new ArrayType(valuesType);
+}, new AnyArrayType());
 
 /**
  * @template {AnyTypeOrShape[]} T
@@ -500,11 +524,11 @@ const array = (subType) => new ArrayType(subType);
 const tuple = (...types) => new TupleType(types);
 
 /**
- * @template {ObjectShape} T
- * @param {T} properties
- * @returns {ObjectType<T>}
+ * @type {AnyObjectType & (<T extends ObjectShape>(properties: T) => ObjectType<T>)}
  */
-const object = (properties) => new ObjectType('object', properties);
+const object = setProtoAndProps(function object(properties) {
+  return new ObjectType('object', properties);
+}, new AnyObjectType());
 
 /** @type {<const T extends readonly unknown[]>(...values: T) => EnumerationType<T>} */
 const enumeration = (...values) => new EnumerationType(values);
