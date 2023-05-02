@@ -30,7 +30,7 @@ function getTypeName(value) {
   }
   if (typeof value === 'object') {
     const constructorName = Object.getPrototypeOf(value).constructor.name;
-    if (constructorName !== 'Object') {
+    if (constructorName && constructorName !== 'Object') {
       return constructorName;
     }
     return 'object';
