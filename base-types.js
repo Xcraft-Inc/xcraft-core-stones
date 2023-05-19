@@ -410,6 +410,20 @@ class TypeType extends Type {
 }
 
 /**
+ * @extends {Type<Function>}
+ */
+class FunctionType extends Type {
+  constructor() {
+    super('function');
+  }
+
+  /** @type {Type["check"]} */
+  check(value, check) {
+    throw new Error('Not implemented');
+  }
+}
+
+/**
  * @template {AnyTypeOrShape} K
  * @template {AnyTypeOrShape} V
  * @extends {Type<Map<t<K>, t<V>>>}
@@ -542,6 +556,8 @@ const union = (...types) => new UnionType(types);
 
 const type = new TypeType();
 
+const func = new FunctionType();
+
 /**
  * @template {AnyTypeOrShape} K
  * @template {AnyTypeOrShape} V
@@ -588,6 +604,7 @@ module.exports = {
   enumeration,
   union,
   type,
+  func,
   map,
   objectMap,
 };
