@@ -5,7 +5,7 @@
 /* eslint-disable jsdoc/require-param-description */
 // @ts-check
 
-const {string, number} = require('../base-types.js');
+const {string, number} = require('../types.js');
 const parse = require('../parse.js');
 /**
  * @template T

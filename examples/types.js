@@ -21,7 +21,7 @@ const {
   union,
   objectMap,
   any,
-} = require('../base-types.js');
+} = require('../types.js');
 /**
  * @template T
  * @typedef {import("../base-types.js").t<T>} t

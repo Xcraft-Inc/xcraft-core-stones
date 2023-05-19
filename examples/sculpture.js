@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-labels */
 // @ts-check
 
-const {number, string} = require('../base-types.js');
+const {number, string} = require('../types.js');
 const {Sculpt, sculpt} = require('../sculpt.js');
 
 class UserType {

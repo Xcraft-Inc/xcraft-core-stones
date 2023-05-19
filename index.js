@@ -12,6 +12,7 @@
  */
 module.exports = {
   ...require('./base-types.js'),
+  ...require('./types.js'),
   ...require('./extra-types/date-time.js'),
   ...require('./extra-types/date.js'),
   ...require('./extra-types/pattern.js'),

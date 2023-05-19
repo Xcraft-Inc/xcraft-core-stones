@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-labels */
 // @ts-check
 
-const {number, string, array, option} = require('../base-types.js');
+const {number, string, array, option} = require('../types.js');
 const parse = require('../parse.js');
 const validate = require('../validate.js');
 
