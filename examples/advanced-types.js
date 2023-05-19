@@ -10,11 +10,11 @@
 // @ts-check
 
 const parse = require('../parse.js');
-const {dateTime} = require('../types/date-time.js');
-const {date} = require('../types/date.js');
-const {pattern} = require('../types/pattern.js');
-const {time} = require('../types/time.js');
-const {yearMonth} = require('../types/year-month.js');
+const {dateTime} = require('../extra-types/date-time.js');
+const {date} = require('../extra-types/date.js');
+const {pattern} = require('../extra-types/pattern.js');
+const {time} = require('../extra-types/time.js');
+const {yearMonth} = require('../extra-types/year-month.js');
 /**
  * @template T
  * @typedef {import("../base-types.js").t<T>} t

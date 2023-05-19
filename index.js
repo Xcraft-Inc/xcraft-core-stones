@@ -12,12 +12,12 @@
  */
 module.exports = {
   ...require('./base-types.js'),
-  ...require('./types/date-time.js'),
-  ...require('./types/date.js'),
-  ...require('./types/pattern.js'),
-  ...require('./types/percentage.js'),
-  ...require('./types/time.js'),
-  ...require('./types/year-month.js'),
+  ...require('./extra-types/date-time.js'),
+  ...require('./extra-types/date.js'),
+  ...require('./extra-types/pattern.js'),
+  ...require('./extra-types/percentage.js'),
+  ...require('./extra-types/time.js'),
+  ...require('./extra-types/year-month.js'),
   ...require('./check.js'),
   parse: require('./parse.js'),
   ...require('./sculpt.js'),
