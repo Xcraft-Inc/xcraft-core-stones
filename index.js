@@ -15,6 +15,7 @@ module.exports = {
   ...require('./types/date-time.js'),
   ...require('./types/date.js'),
   ...require('./types/pattern.js'),
+  ...require('./types/percentage.js'),
   ...require('./types/time.js'),
   ...require('./types/year-month.js'),
   ...require('./check.js'),
