@@ -30,6 +30,10 @@ class Type {
     this.name = name;
   }
 
+  get fullName() {
+    return this.name;
+  }
+
   /**
    * @param {any} value
    * @param {Check} check

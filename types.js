@@ -21,6 +21,8 @@
  */
 
 const {Type, AnyType} = require('./base-types.js');
+const {Check} = require('./check.js');
+const fullTypeName = require('./full-type-name.js');
 const setProtoAndProps = require('./set-proto-and-props.js');
 
 /**
@@ -72,8 +74,12 @@ class NumberType extends Type {
 class ValueType extends Type {
   /** @param {T} value */
   constructor(value) {
-    super(`value<${value}>`);
+    super('value');
     this.value = value;
+  }
+
+  get fullName() {
+    return `${this.name}<${value}>`;
   }
 
   /** @type {Type["check"]} */
@@ -89,8 +95,12 @@ class ValueType extends Type {
 class OptionType extends Type {
   /** @param {T} subType */
   constructor(subType) {
-    super(`option<${subType.name}>`);
+    super('option');
     this.subType = subType;
+  }
+
+  get fullName() {
+    return `${fullTypeName(this.subType)} | null | undefined`;
   }
 
   /** @type {Type["check"]} */
@@ -108,8 +118,12 @@ class OptionType extends Type {
 class ArrayType extends Type {
   /** @param {T} valuesType */
   constructor(valuesType) {
-    super(`array<${valuesType.name}>`);
+    super('array');
     this.valuesType = valuesType;
+  }
+
+  get fullName() {
+    return `${this.name}<${fullTypeName(this.valuesType)}>`;
   }
 
   /** @type {Type["check"]} */
@@ -132,8 +146,12 @@ class TupleType extends Type {
    * @param {T} types
    */
   constructor(types) {
-    super(`tuple<${types.map((type) => type.name).join(',')}>`);
+    super('tuple');
     this.types = types;
+  }
+
+  get fullName() {
+    return `[${this.types.map(fullTypeName).join(', ')}]`;
   }
 
   /** @type {Type["check"]} */
@@ -202,8 +220,12 @@ class UnionType extends Type {
    * @param {T} types
    */
   constructor(types) {
-    super(`union<${types.map((type) => type.name).join(',')}>`);
+    super('union');
     this.types = types;
+  }
+
+  get fullName() {
+    return this.types.map(fullTypeName).join(' | ');
   }
 
   /** @type {Type["check"]} */
@@ -264,9 +286,15 @@ class MapType extends Type {
    * @param {V} valuesType
    */
   constructor(keysType, valuesType) {
-    super(`map<${keysType.name},${valuesType.name}>`);
+    super('map');
     this.keysType = keysType;
     this.valuesType = valuesType;
+  }
+
+  get fullName() {
+    const keysType = fullTypeName(this.keysType);
+    const valuesType = fullTypeName(this.valuesType);
+    return `${this.name}<${keysType},${valuesType}>`;
   }
 
   /** @type {Type["check"]} */
@@ -290,8 +318,14 @@ class ObjectMapType extends Type {
    * @param {V} valuesType
    */
   constructor(valuesType) {
-    super(`object<${valuesType.name}>`);
+    super('object');
     this.valuesType = valuesType;
+  }
+
+  get fullName() {
+    const keysType = 'string';
+    const valuesType = fullTypeName(this.valuesType);
+    return `{[${keysType}]: ${valuesType}}`;
   }
 
   /** @type {Type["check"]} */

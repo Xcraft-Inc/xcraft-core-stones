@@ -12,7 +12,7 @@ const {isAnyType, isClassType, isClassShape} = require('./base-types');
 function fullTypeName(type) {
   // AnyType
   if (isAnyType(type)) {
-    return type.name;
+    return type.fullName;
   }
 
   // Class type
