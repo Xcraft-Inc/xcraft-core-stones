@@ -210,6 +210,19 @@ class UnionType extends Type {
   check(value, check) {
     check.oneOfTypes(value, this.types);
   }
+
+  /**
+   * @param {t<T[number]>} value
+   * @returns {T[number] | undefined}
+   */
+  findType(value) {
+    const type = this.types.find((type) => {
+      const check = new Check();
+      check.type(value, type);
+      return check.ok;
+    });
+    return type;
+  }
 }
 
 /**
