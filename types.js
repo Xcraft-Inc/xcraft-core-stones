@@ -359,6 +359,11 @@ class AnyObjectType extends Type {
   constructor() {
     super('object');
   }
+
+  /** @type {Type["check"]} */
+  check(value, check) {
+    check.object(value);
+  }
 }
 
 // ## Type instances ##
