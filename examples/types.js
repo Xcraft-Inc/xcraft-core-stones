@@ -21,6 +21,7 @@ const {
   union,
   objectMap,
   any,
+  intersection,
 } = require('../types.js');
 /**
  * @template T
@@ -249,6 +250,16 @@ example5: {
   /** @type {t<typeof ShapeType>} */
   let shape = circle1;
   shape = square1; // error
+
+  // Intersection
+
+  class ColorableType {
+    color = string;
+  }
+  const CircleWithColorType = intersection(CircleType, ColorableType);
+  /** @type {t<typeof CircleWithColorType>} */
+  let coloredCircle = {...circle1, color: 'orange'};
+  coloredCircle = circle1; // error
 
   // Map
 

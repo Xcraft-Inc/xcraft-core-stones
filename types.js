@@ -248,6 +248,34 @@ class UnionType extends Type {
 }
 
 /**
+ * @template T
+ * @typedef {(T extends any ? (x: T) => void : never) extends ((x: infer I) => void) ? I : never} unionToIntersection
+ */
+
+/**
+ * @template {AnyTypeOrShape[]} T
+ * @extends {Type<unionToIntersection<t<T[number]>>>}
+ */
+class IntersectionType extends Type {
+  /**
+   * @param {T} types
+   */
+  constructor(types) {
+    super('intersection');
+    this.types = types;
+  }
+
+  get fullName() {
+    return this.types.map(fullTypeName).join(' & ');
+  }
+
+  /** @type {Type["check"]} */
+  check(value, check) {
+    throw new Error('Not implemented');
+  }
+}
+
+/**
  * @extends {Type<AnyTypeOrShape>}
  */
 class TypeType extends Type {
@@ -423,6 +451,13 @@ const enumeration = (...values) => new EnumerationType(values);
  */
 const union = (...types) => new UnionType(types);
 
+/**
+ * @template {AnyTypeOrShape[]} T
+ * @param {T} types
+ * @returns {IntersectionType<T>}
+ */
+const intersection = (...types) => new IntersectionType(types);
+
 const type = new TypeType();
 
 const func = new FunctionType();
@@ -467,6 +502,7 @@ module.exports = {
   object,
   enumeration,
   union,
+  intersection,
   type,
   func,
   map,
