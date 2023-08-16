@@ -304,6 +304,30 @@ class FunctionType extends Type {
 }
 
 /**
+ * @template {new (...args: any) => any} T
+ * @extends {Type<T>}
+ */
+class InstanceType extends Type {
+  /** @param {T} Class */
+  constructor(Class) {
+    super('instance');
+    this.Class = Class;
+  }
+
+  get fullName() {
+    return `${this.name}<${this.Class.name}>`;
+  }
+
+  /** @type {Type["check"]} */
+  check(value, check) {
+    check.true(value instanceof this.Class, 'bad type', {
+      actual: value,
+      expectedType: this.Class.name,
+    });
+  }
+}
+
+/**
  * @template {AnyTypeOrShape} K
  * @template {AnyTypeOrShape} V
  * @extends {Type<Map<t<K>, t<V>>>}
@@ -463,6 +487,13 @@ const type = new TypeType();
 const func = new FunctionType();
 
 /**
+ * @template {new (...args: any) => any} T
+ * @param {T} Class
+ * @returns {InstanceType<T>}
+ */
+const instance = (Class) => new InstanceType(Class);
+
+/**
  * @template {AnyTypeOrShape} K
  * @template {AnyTypeOrShape} V
  * @param {K} keysType
@@ -489,6 +520,7 @@ module.exports = {
   ObjectType,
   EnumerationType,
   UnionType,
+  InstanceType,
   MapType,
 
   any,
@@ -505,6 +537,7 @@ module.exports = {
   intersection,
   type,
   func,
+  instance,
   map,
   objectMap,
 };
