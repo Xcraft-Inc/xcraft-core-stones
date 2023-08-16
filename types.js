@@ -520,6 +520,9 @@ module.exports = {
   ObjectType,
   EnumerationType,
   UnionType,
+  IntersectionType,
+  TypeType,
+  FunctionType,
   InstanceType,
   MapType,
 
