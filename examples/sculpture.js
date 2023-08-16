@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-labels */
 // @ts-check
 
-const {number, string} = require('../types.js');
+const {number, string, option} = require('../types.js');
 const {Sculpt, sculpt} = require('../sculpt.js');
 
 class UserType {
@@ -75,4 +75,29 @@ example3: {
   user.age = '11'; // error
 
   console.log(user);
+}
+
+example4: {
+  /**
+   * @typedef {import("../base-types.js").AnyTypeOrShape} AnyTypeOrShape
+   */
+
+  /**
+   * @template {AnyTypeOrShape} T
+   * @param {T} type
+   */
+  const MayBeType = (type) => {
+    return class MayBeType {
+      value = option(type);
+    };
+  };
+
+  const MayBeStringType = MayBeType(string);
+
+  class MayBeString extends Sculpt(MayBeStringType) {}
+
+  let x = new MayBeString();
+  x.value = 42;
+  x.toto = 'wrong key';
+  x.value = 'ok';
 }
