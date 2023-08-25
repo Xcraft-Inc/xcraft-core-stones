@@ -372,6 +372,19 @@ class Check {
 
     return ok;
   }
+
+  tooManyErrors() {
+    if (this.errors.length >= 100) {
+      this.#pushError({
+        errorName: 'Too many errors',
+        info: {
+          errorCount: this.errors.length,
+        },
+      });
+      return true;
+    }
+    return false;
+  }
 }
 
 module.exports = {Check};

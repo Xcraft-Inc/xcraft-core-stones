@@ -133,6 +133,9 @@ class ArrayType extends Type {
     }
     for (const [index, item] of value.entries()) {
       check.typeWithPath(item, this.valuesType, index);
+      if (check.tooManyErrors()) {
+        return;
+      }
     }
   }
 }
