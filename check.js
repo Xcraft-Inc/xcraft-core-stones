@@ -83,7 +83,7 @@ class Check {
 
   /** @param {CheckError[]} errors */
   #concatErrors(errors) {
-    this.errors.push(...errors);
+    this.errors = this.errors.concat(errors);
   }
 
   get ok() {
