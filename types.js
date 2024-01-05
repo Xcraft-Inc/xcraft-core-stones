@@ -397,7 +397,7 @@ class ObjectMapType extends Type {
 /**
  * @template {AnyTypeOrShape} K
  * @template {AnyTypeOrShape} V
- * @extends {Type<Record<t<K>, t<V>>>}>}
+ * @extends {Type<Record<t<K>, t<V>>>}
  */
 class RecordType extends Type {
   /**
