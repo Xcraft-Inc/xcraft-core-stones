@@ -395,6 +395,40 @@ class ObjectMapType extends Type {
 }
 
 /**
+ * @template {AnyTypeOrShape} K
+ * @template {AnyTypeOrShape} V
+ * @extends {Type<Record<t<K>, t<V>>>}>}
+ */
+class RecordType extends Type {
+  /**
+   * @param {K} keysType
+   * @param {V} valuesType
+   */
+  constructor(keysType, valuesType) {
+    super('object');
+    this.keysType = keysType;
+    this.valuesType = valuesType;
+  }
+
+  get fullName() {
+    const keysType = fullTypeName(this.keysType);
+    const valuesType = fullTypeName(this.valuesType);
+    return `{[${keysType}]: ${valuesType}}`;
+  }
+
+  /** @type {Type["check"]} */
+  check(value, check) {
+    if (!check.object(value)) {
+      return;
+    }
+    for (const [k, v] of Object.entries(value)) {
+      check.typeWithPath(v, this.valuesType, k);
+      check.typeWithPath(k, this.keysType, `[${k}]`);
+    }
+  }
+}
+
+/**
  * @extends {ArrayType<AnyType>}
  */
 class AnyArrayType extends ArrayType {
@@ -512,6 +546,15 @@ const map = (keysType, valuesType) => new MapType(keysType, valuesType);
  */
 const objectMap = (valuesType) => new ObjectMapType(valuesType);
 
+/**
+ * @template {AnyTypeOrShape} K
+ * @template {AnyTypeOrShape} V
+ * @param {K} keysType
+ * @param {V} valuesType
+ * @returns {RecordType<K,V>}
+ */
+const record = (keysType, valuesType) => new RecordType(keysType, valuesType);
+
 module.exports = {
   AnyType,
   BooleanType,
@@ -528,6 +571,7 @@ module.exports = {
   FunctionType,
   InstanceType,
   MapType,
+  RecordType,
 
   any,
   boolean,
@@ -546,4 +590,5 @@ module.exports = {
   instance,
   map,
   objectMap,
+  record,
 };
