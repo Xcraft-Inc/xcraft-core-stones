@@ -20,6 +20,7 @@ module.exports = {
   ...require('./extra-types/time.js'),
   ...require('./extra-types/year-month.js'),
   ...require('./check.js'),
+  checkType: require('./check-type.js'),
   parse: require('./parse.js'),
   ...require('./sculpt.js'),
   validate: require('./validate.js'),
