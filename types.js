@@ -331,6 +331,34 @@ class InstanceType extends Type {
 }
 
 /**
+ * @template {AnyTypeOrShape} T
+ * @extends {Type<Set<t<T>>>}
+ */
+class SetType extends Type {
+  /**
+   * @param {T} valuesType
+   */
+  constructor(valuesType) {
+    super('set');
+    this.valuesType = valuesType;
+  }
+
+  get fullName() {
+    return `${this.name}<${fullTypeName(this.valuesType)}>`;
+  }
+
+  /** @type {Type["check"]} */
+  check(value, check) {
+    if (!check.instanceOf(value, Set)) {
+      return;
+    }
+    for (const v of value.values()) {
+      check.typeWithPath(v, this.valuesType, '[]');
+    }
+  }
+}
+
+/**
  * @template {AnyTypeOrShape} K
  * @template {AnyTypeOrShape} V
  * @extends {Type<Map<t<K>, t<V>>>}
@@ -531,6 +559,13 @@ const func = new FunctionType();
 const instance = (Class) => new InstanceType(Class);
 
 /**
+ * @template {AnyTypeOrShape} T
+ * @param {T} valuesType
+ * @returns {SetType<T>}
+ */
+const set = (valuesType) => new SetType(valuesType);
+
+/**
  * @template {AnyTypeOrShape} K
  * @template {AnyTypeOrShape} V
  * @param {K} keysType
@@ -570,6 +605,7 @@ module.exports = {
   TypeType,
   FunctionType,
   InstanceType,
+  SetType,
   MapType,
   RecordType,
 
@@ -588,6 +624,7 @@ module.exports = {
   type,
   func,
   instance,
+  set,
   map,
   objectMap,
   record,

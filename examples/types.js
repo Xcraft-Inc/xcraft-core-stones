@@ -16,6 +16,7 @@ const {
   array,
   tuple,
   object,
+  set,
   map,
   enumeration,
   union,
@@ -260,6 +261,17 @@ example5: {
   /** @type {t<typeof CircleWithColorType>} */
   let coloredCircle = {...circle1, color: 'orange'};
   coloredCircle = circle1; // error
+
+  // Set
+
+  const CirclesSet = set(CircleType);
+
+  /** @type {t<typeof CirclesSet>} */
+  let circlesSet = new Set();
+  circlesSet.add(circle1);
+  circlesSet.add(circle2);
+
+  circlesSet.add(square1); // error
 
   // Map
 
