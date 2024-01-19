@@ -229,6 +229,26 @@ class Check {
   }
 
   /**
+   * @template T
+   * @param {any} actual
+   * @param {new (...args: any) => T} expected
+   * @returns {actual is T}
+   */
+  instanceOf(actual, expected) {
+    const ok = actual instanceof expected;
+    if (!ok) {
+      this.#pushError({
+        errorName: 'bad type',
+        info: {
+          actual: getTypeName(actual),
+          expectedType: expected?.name,
+        },
+      });
+    }
+    return ok;
+  }
+
+  /**
    * @param {any} actual
    * @param {ClassType} expectedType
    * @returns {boolean}
