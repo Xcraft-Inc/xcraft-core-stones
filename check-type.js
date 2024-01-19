@@ -17,7 +17,7 @@ const fullTypeName = require('./full-type-name.js');
  * @template {AnyTypeOrShape} T
  * @param {any} value
  * @param {T} type
- * @returns {{ok:true, [any: string]: undefined} | {ok:false, errors: CheckError[], errorMessage: string}}
+ * @returns {{ok:true, value:t<T>} | {ok:false, errors: CheckError[], errorMessage: string}}
  */
 function checkType(value, type) {
   const check = new Check();
@@ -33,7 +33,7 @@ function checkType(value, type) {
       },
     };
   }
-  return {ok: true};
+  return {ok: true, value};
 }
 
 module.exports = checkType;
