@@ -1,3 +1,4 @@
+// @ts-check
 const {Check} = require('./check.js');
 const errorMessage = require('./error-message.js');
 const fullTypeName = require('./full-type-name.js');

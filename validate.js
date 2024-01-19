@@ -1,3 +1,4 @@
+// @ts-check
 const {Check} = require('./check.js');
 /**
  * @template T
