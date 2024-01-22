@@ -105,7 +105,7 @@ class OptionType extends Type {
 
   /** @type {Type["check"]} */
   check(value, check) {
-    if (value !== undefined) {
+    if (value !== null && value !== undefined) {
       check.type(value, this.subType);
     }
   }
