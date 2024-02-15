@@ -10,6 +10,10 @@
  * @template {keyof T} U
  * @typedef {import("./base-types.js").markOptional<T,U>} markOptional
  */
+
+// Ensure typedefs are loaded when importing xcraft-core-stones
+require('xcraft-core-stones/typedefs.js');
+
 module.exports = {
   ...require('./base-types.js'),
   ...require('./types.js'),
