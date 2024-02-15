@@ -7,8 +7,7 @@
 
 /**
  * @typedef {import("./base-types.js").AnyTypeOrShape} AnyTypeOrShape
- */
-/**
+ * @typedef {import("./base-types.js").ClassShape} ClassShape
  * @typedef {import("./base-types.js").ObjectShape} ObjectShape
  */
 /**
@@ -589,6 +588,10 @@ const objectMap = (valuesType) => new ObjectMapType(valuesType);
  * @returns {RecordType<K,V>}
  */
 const record = (keysType, valuesType) => new RecordType(keysType, valuesType);
+
+/**
+ * @typedef {ClassShape | ObjectShape | ObjectType<any>} AnyObjectShape
+ */
 
 module.exports = {
   AnyType,

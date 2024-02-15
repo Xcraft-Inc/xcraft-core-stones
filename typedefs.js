@@ -22,10 +22,9 @@
  * @typedef {import('./base-types.js').classType<T>} classType
  */
 /**
+ * @typedef {import("./types.js").AnyObjectShape} AnyObjectShape
+ */
+/**
  * @template T
  * @typedef {import("./types.js").ObjectType<T>} ObjectType
- */
-
-/**
- * @typedef {ClassShape | ObjectShape | ObjectType<any>} AnyObjectShape
  */
