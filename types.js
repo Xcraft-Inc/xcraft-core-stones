@@ -610,6 +610,7 @@ module.exports = {
   InstanceType,
   SetType,
   MapType,
+  ObjectMapType,
   RecordType,
 
   any,
