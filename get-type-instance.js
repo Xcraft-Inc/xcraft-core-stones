@@ -1,12 +1,9 @@
 //@ts-check
 
-const {Type, isAnyType, isClassType, isClassShape} = require('./base-types.js');
+const {isAnyType, isClassType, isClassShape} = require('./base-types.js');
 const {object, ObjectType} = require('./types.js');
 
-/**
- * @template {AnyTypeOrShape} T
- * @typedef {T extends AnyType ? T : T extends ClassType ? InstanceType<T>: T extends ClassShape ? ObjectType<flatten<InstanceType<T>>> : T extends ObjectShape ? ObjectType<flatten<T>> : never} GetType
- */
+require('./index.js'); // Import typedefs
 
 /**
  * @template {AnyTypeOrShape} T
@@ -38,11 +35,6 @@ function getTypeInstance(typeOrShape) {
   // @ts-ignore
   return object(typeOrShape);
 }
-
-/**
- * @template {AnyObjectShape} T
- * @typedef {T extends ObjectType ? T["properties"] : T extends ClassShape ? flatten<InstanceType<T>> : T extends ObjectShape ? T : never} GetShape
- */
 
 /**
  * @template {AnyObjectShape} T

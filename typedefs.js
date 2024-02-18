@@ -28,3 +28,13 @@
  * @template T
  * @typedef {import("./types.js").ObjectType<T>} ObjectType
  */
+
+/**
+ * @template {AnyTypeOrShape} T
+ * @typedef {T extends AnyType ? T : T extends ClassType ? InstanceType<T>: T extends ClassShape ? ObjectType<flatten<InstanceType<T>>> : T extends ObjectShape ? ObjectType<flatten<T>> : never} GetType
+ */
+
+/**
+ * @template {AnyObjectShape} T
+ * @typedef {T extends ObjectType<any> ? T["properties"] : T extends ClassShape ? flatten<InstanceType<T>> : T extends ObjectShape ? T : never} GetShape
+ */
