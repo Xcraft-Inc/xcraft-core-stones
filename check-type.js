@@ -15,7 +15,7 @@ const fullTypeName = require('./full-type-name.js');
 
 /**
  * @template {AnyTypeOrShape} T
- * @param {any} value
+ * @param {t<T>} value an object to check, it can be of type 'any'.
  * @param {T} type
  * @returns {{ok:true, value:t<T>} | {ok:false, errors: CheckError[], errorMessage: string}}
  */
