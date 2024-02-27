@@ -6,9 +6,7 @@
  * @typedef {import("./base-types.js").t<T>} t
  */
 
-const {any} = require('./base-types.js');
-
-const {string, number, union, array, option, type} = require('./types.js');
+const {any, string, number, union, array, option, type} = require('./types.js');
 
 const PathElementType = union(string, number);
 /** @typedef {t<PathElementType>} PathElement */
