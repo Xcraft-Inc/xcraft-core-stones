@@ -12,6 +12,7 @@
  */
 
 // Ensure typedefs are loaded when importing xcraft-core-stones
+// @ts-ignore
 require('xcraft-core-stones/typedefs.js');
 
 module.exports = {

@@ -1,3 +1,4 @@
+// @ts-check
 /**
  * @template T
  * @typedef {import("./base-types.js").t<T>} t
@@ -9,10 +10,11 @@
 /**
  * @template {AnyTypeOrShape} T
  * @param {T} type
- * @return {(_?: t<T>) => t<T>}
+ * @returns {(_?: t<T>) => t<T>}
  */
 function sculpt(type) {
   type;
+  // @ts-ignore
   return function (_) {
     return _;
   };
@@ -21,10 +23,11 @@ function sculpt(type) {
 /**
  * @template {AnyTypeOrShape} T
  * @param {T} type
- * @return {new (_?: t<T>) => t<T>}
+ * @returns {new (_?: t<T>) => t<T>}
  */
 function Sculpt(type) {
   type;
+  // @ts-ignore
   return function (_) {
     Object.assign(this, _);
   };
