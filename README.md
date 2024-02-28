@@ -3,19 +3,38 @@
 _Core stones are building blocks that are useful to create robust elvish applications but can also be used in any other JS code.
 Base stones gather together into shapes describing complexes objects. Shapes can be sculpted to form JS classes. Check methods allows to verify that unknown objects match specific shapes._
 
-## Why to use stones
+## Table of contents
+
+- [Introduction](#introduction)\
+        [Why to use stones](#why-to-use-stones) - [Alternatives](#alternatives) - [Requirements](#requirements)
+- [Installation](#installation)
+- [Usage](#usage)\
+       [Example](#example) - [Shapes definition](#shapes-definition) - [Recommendations](#recommendations)
+- [Stones](#stones)
+- [Type checking](#type-checking)\
+       [Static type checking](#static-type-checking) - [Runtime validation](#runtime-validation)
+- [Derive types from stones](#derive-types-from-stones)\
+       [t\<T\>](#tt) - [Sculpt](#sculpt)
+- [Create custom stones](#create-custom-stones)
+- [Advanced usage](#advanced-usage)\
+       [Inheritance](#inheritance) - [Generic types](#generic-types) - [Recursive types](#recursive-types)
+- [Conclusion](#conclusion)
+
+## Introduction
+
+### Why to use stones
 
 The main goal is to do runtime checks to ensure a JS value corresponds to a specific type. For example, when reading JSON data from a file or from a network request, it's useful to check that the data correspond to a specific shape.
 
-Core-stones also allows to infer TypeScript types from a stone type. After an object is checked, it's type is known and the editor auto-complete feature can be used for easier development.
+Core-stones also allows to derive TypeScript types from a stone type. After an object is checked, it's type is known and the editor autocomplete feature can be used for easier development.
 
-## Alternatives
+### Alternatives
 
 This project is inspired by [zod](https://github.com/colinhacks/zod). If you want to use a popular project, use Zod. On the other side, xcraft-core-stones have a nicer syntax to define types. In addition, if you want to understand how it works, stones are more simple.
 
 Another alternative is to build your own function to convert class shapes to zod types and then you could benefit from both.
 
-## Requirements
+### Requirements
 
 To work with stones, it's required to know some basic JS and also useful to know the base types in TypeScript.
 
@@ -31,11 +50,13 @@ npm install xcraft-core-stones
 
 ## Usage
 
+### Example
+
 1. Add `// @ts-check` at the top of the file
 2. Import some stones
 3. Define a shape
 4. Validate data
-5. _"Pura vida"_
+5. Enjoy autocomplete and _"Pura vida"_
 
 ```js
 // @ts-check
@@ -55,12 +76,7 @@ user.name; // type: string
 user.age; // type: number
 ```
 
-## Recommendations
-
-To make life easier, it's recommanded to use the auto-complete features of the code editor.
-In VSCodium, when you type `user.` with a dot at the end, it gives you what are the properties of the `user` type. When you define shapes, put the cursor at the end of a type, like `age = number`, then use the `ctrl+space` shortcut followed by the `enter` key. It'll automatically create the import line for `number` from `xcraft-core-stones`.
-
-## Create complex shapes
+### Shapes definition
 
 Shapes are JS classes describing types. They can be reused to describe a value in another shape.
 
@@ -100,7 +116,15 @@ class ContactShape {
 }
 ```
 
-Note that it's easy to navigate through shapes by using `F12` or `ctrl+click`, for example to find the definition of `AddressShape` from `ContactShape.address`.
+### Recommendations
+
+Here are some recommendations to make life easier with your code editor.
+
+- In VSCodium, when you type `user.` with a dot at the end, it gives you what are the properties of the `user` type.
+
+- When you define shapes, put the cursor at the end of a type, like `age = number`, then use the `ctrl+space` shortcut followed by the `enter` key. It'll automatically create the import line for `number` from `xcraft-core-stones`.
+
+- Note that it's easy to navigate through shapes by using `F12` or `ctrl+click`, for example to find the definition of `AddressShape` from `ContactShape.address`.
 
 ## Stones
 
@@ -133,12 +157,14 @@ This section describe the different stones that can be used. It gives their corr
 
 `*` deep check is more complicated than a one liner.
 
-## Static type checking
+## Type checking
+
+### Static type checking
 
 - In VSCodium editor, add `// @ts-check` at the top of a file to enable static type checks. Mouse over a variable will show its type.
 - The TypeScript checker can also be run from the command-line with `npx -p typescript tsc --noEmit --allowJs --checkJs --target esnext --skipLibCheck my-file.js`.
 
-## Runtime validation
+### Runtime validation
 
 All the examples are done with this simple shape.
 
@@ -154,7 +180,7 @@ class UserShape {
 const data = JSON.parse('{"name": "Toto", "age": 12}');
 ```
 
-### parse
+#### parse
 
 `parse(value: any, type: AnyTypeOrShape)`
 
@@ -182,7 +208,7 @@ const user2 = parse(wrongData, UserShape);
 */
 ```
 
-### validate
+#### validate
 
 `validate(value: any, type: AnyTypeOrShape)`
 
@@ -199,7 +225,7 @@ if (validate(data, UserShape)) {
 }
 ```
 
-### checkType
+#### checkType
 
 ```
 checkType<T extends AnyTypeOrShape>(value: any, type: T):
@@ -220,7 +246,7 @@ if (!check.ok) {
 const user = check.value; // type: {name: string, age: number}
 ```
 
-## Type inference
+## Derive types from stones
 
 ### `t<T>`
 
@@ -315,9 +341,9 @@ user.sayHello();
 
 ## Create custom stones
 
-### For static type check and auto-complete
+### For static type check and autocomplete
 
-In this example, a custom `RegExp` type is created. It is only used for static type checking in the code editor and to be able to use auto-complete features. It cannot be used to perform runtime validation.
+In this example, a custom `RegExp` type is created. It is only used for static type checking in the code editor and to be able to use autocomplete features. It cannot be used to perform runtime validation.
 
 ```js
 // 1. Create an instance of `Type` and specify the generic parameter T.
@@ -395,12 +421,19 @@ const example = parse(data, ExampleShape);
 example; // type: {type: string, format: RegExp}
 ```
 
-## Inheritance
+## Advanced usage
+
+### Inheritance
 
 Shapes can simply extend other shapes.
 
 ```js
-class SpecialUserType extends UserType {
+class UserShape {
+  name = string;
+  age = number;
+}
+
+class SpecialUserShape extends UserShape {
   specialProperty = record(string, number);
 }
 
@@ -408,7 +441,7 @@ const data = JSON.parse(
   '{"name": "Toto", "age": 12, "specialProperty": {"count1": 42}}'
 );
 
-const specialUser = parse(data, SpecialUserType);
+const specialUser = parse(data, SpecialUserShape);
 
 console.log(specialUser);
 ```
@@ -426,7 +459,7 @@ const day = parse(data, dayType);
 day; // type: "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun"
 ```
 
-## Generic types
+### Generic types
 
 Simple JS functions can be used to define a type that takes another type as parameter.
 
@@ -457,7 +490,26 @@ const example = {
 };
 ```
 
-## User quotes
+### Recursive types
+
+Recursive shapes, like the following example, are currently not supported.
+
+```js
+class ListShape {
+  element = string;
+  next = option(ListShape);
+}
+```
+
+It's still possible to define them in JSdoc.
+
+```js
+/**
+ * @typedef {{element: string, next?: List}} List
+ */
+```
+
+## Conclusion
 
 _"From the earth, comes our strength. From the mountains, our resilience.
 Our bodies are forged from stone in the unending fires fueled by our
