@@ -1,7 +1,7 @@
 # xcraft-core-stones
 
-Core stones are building blocks that are useful to create robust elvish applications but can also be used in any other JS code.
-Base stones gather together into shapes describing complexes objects. Shapes can be sculpted to form JS classes. Check methods allows to verify that unknown objects match specific shapes.
+_Core stones are building blocks that are useful to create robust elvish applications but can also be used in any other JS code.
+Base stones gather together into shapes describing complexes objects. Shapes can be sculpted to form JS classes. Check methods allows to verify that unknown objects match specific shapes._
 
 ## Why to use stones
 
@@ -15,6 +15,14 @@ This project is inspired by [zod](https://github.com/colinhacks/zod). If you wan
 
 Another alternative is to build your own function to convert class shapes to zod types and then you could benefit from both.
 
+## Requirements
+
+To work with stones, it's required to know some basic JS and also useful to know the base types in TypeScript.
+
+To understand how stones work, it's necessary to have a good understanding of "mapped types" in TS.
+
+This project uses `.js` files with types in JSDoc instead of using `.ts` files. It allows to develop without the need to compile. More information can be found in the [TS documentation](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html).
+
 ## Installation
 
 ```sh
@@ -23,10 +31,11 @@ npm install xcraft-core-stones
 
 ## Usage
 
-1. Add `// @ts-check`
+1. Add `// @ts-check` at the top of the file
 2. Import some stones
 3. Define a shape
 4. Validate data
+5. _"Pura vida"_
 
 ```js
 // @ts-check
@@ -45,6 +54,11 @@ user; // type: {name: string, age: number}
 user.name; // type: string
 user.age; // type: number
 ```
+
+## Recommendations
+
+To make life easier, it's recommanded to use the auto-complete features of the code editor.
+In VSCodium, when you type `user.` with a dot at the end, it gives you what are the properties of the `user` type. When you define shapes, put the cursor at the end of a type, like `age = number`, then use the `ctrl+space` shortcut followed by the `enter` key. It'll automatically create the import line for `number` from `xcraft-core-stones`.
 
 ## Create complex shapes
 
@@ -92,8 +106,8 @@ Note that it's easy to navigate through shapes by using `F12` or `ctrl+click`, f
 
 This section describe the different stones that can be used. It gives their corresponding TypeScript type and other information.
 
-- Stone type: the JS class representing the type
-- Runtime check: how to usually check without using stones if a value has the corresponding type
+- Stone type: the JS class representing the type.
+- Runtime check: how to usually check without using stones if a value has the corresponding type. With stones, simply use `validate(value, type)`.
 
 | Stone                | TypeScript type           | Stone type       | Runtime check                  |
 | -------------------- | ------------------------- | ---------------- | ------------------------------ |
@@ -104,7 +118,7 @@ This section describe the different stones that can be used. It gives their corr
 | value(v)             | `"str"` or `42` or ...    | ValueType        | x === v                        |
 | option               | T \| null \| undefined    | OptionType       | x !== null && x !== undefined  |
 | array(T)             | T[]                       | ArrayType        | `*` Array.isArray(x)           |
-| tuple(A,B,C)         | [A,B,C]                   | TupleType        | -                              |
+| tuple(A,B,C)         | [A,B,C]                   | TupleType        | `*`                            |
 | object(S)            | {}                        | ObjectType       | `*` x && typeof x === 'object' |
 | enumeration("A","B") | "A" \| "B"                | EnumerationType  | ["A","B"].includes(x)          |
 | union(A,B)           | A \| B                    | UnionType        | checkA \|\| checkB             |
@@ -121,7 +135,7 @@ This section describe the different stones that can be used. It gives their corr
 
 ## Static type checking
 
-- In VSCodium editor, add `// @ts-check` at the top of a file to enable static type checks. Mouse over a variable will show it's type.
+- In VSCodium editor, add `// @ts-check` at the top of a file to enable static type checks. Mouse over a variable will show its type.
 - The TypeScript checker can also be run from the command-line with `npx -p typescript tsc --noEmit --allowJs --checkJs --target esnext --skipLibCheck my-file.js`.
 
 ## Runtime validation
@@ -141,6 +155,8 @@ const data = JSON.parse('{"name": "Toto", "age": 12}');
 ```
 
 ### parse
+
+`parse(value: any, type: AnyTypeOrShape)`
 
 Throws an error if the value has the wrong type.
 The error has a precise description of which part of the object doesn't match the shape.
@@ -168,7 +184,10 @@ const user2 = parse(wrongData, UserShape);
 
 ### validate
 
+`validate(value: any, type: AnyTypeOrShape)`
+
 Returns `true` if the value has the right type. Returns `false` otherwise.
+In addition it narrows the type of the value given to the function.
 
 ```js
 const {validate} = require('xcraft-core-stones');
@@ -182,7 +201,13 @@ if (validate(data, UserShape)) {
 
 ### checkType
 
-Allows to get the error message if the value has the wrong type.
+```
+checkType<T extends AnyTypeOrShape>(value: any, type: T):
+  {ok:true, value:t<T>} |
+  {ok:false, errors: CheckError[], errorMessage: string}
+```
+
+Returns the typed value if the value has the right type or an error message otherwise.
 
 ```js
 const {checkType} = require('xcraft-core-stones');
@@ -199,7 +224,9 @@ const user = check.value; // type: {name: string, age: number}
 
 ### `t<T>`
 
-`t<T>` returns the corresponding TypeScript type from any stone type or shape.
+`t<T>` is a type operator that returns the corresponding TypeScript type from any stone type or shape.
+
+It can be used for example to define the type of variables or function parameters.
 
 ```js
 // Import the definition of t<T>
@@ -207,6 +234,13 @@ require('xcraft-core-stones');
 
 /** @type {t<UserShape>} */
 let user;
+
+/**
+ * @param {t<UserShape>} user
+ */
+function printUser(user) {
+  console.log(`My name is ${user.name} and I'm ${user.age}`);
+}
 ```
 
 Alternatively, `t<T>` can also be imported like this:
@@ -218,13 +252,41 @@ Alternatively, `t<T>` can also be imported like this:
  */
 ```
 
+For convenience, it's possible to create a new type from the result of `t<T>'.`
+
+```js
+/**
+ * @typedef {t<UserShape>} User
+ */
+```
+
 ### Sculpt
 
 Create a class from a shape.
 
 ```js
-class User extends Sculpt(UserShape) {}
+const {Sculpt} = require('xcraft-core-stones');
 
+class User extends Sculpt(UserShape) {}
+```
+
+Then it can be used as a type.
+
+```js
+/** @type {User} */
+let user;
+
+/**
+ * @param {User} user
+ */
+function printUser(user) {
+  console.log(`My name is ${user.name} and I'm ${user.age}`);
+}
+```
+
+Or it can be used as a class to create new typed objects.
+
+```js
 const user = new User({
   name: 'toto',
   age: 12,
@@ -234,6 +296,8 @@ const user = new User({
 Methods can also be added to the class.
 
 ```js
+const {parse} = require('xcraft-core-stones');
+
 class User extends Sculpt(UserType) {
   static parse(value) {
     return new User(parse(value, UserType));
@@ -253,7 +317,7 @@ user.sayHello();
 
 ### For static type check and auto-complete
 
-Example with a custom `RegExp` type:
+In this example, a custom `RegExp` type is created. It is only used for static type checking in the code editor and to be able to use auto-complete features. It cannot be used to perform runtime validation.
 
 ```js
 // 1. Create an instance of `Type` and specify the generic parameter T.
@@ -274,7 +338,7 @@ class ExampleShape {
 let example;
 example = {
   type: 'test',
-  format: /test/,
+  format: /test/, // ok
 };
 example = {
   type: 'test',
@@ -284,7 +348,9 @@ example = {
 
 ### For both static and runtime checks
 
-Create a class that extends the base `Type` class and implement the `check` method.
+Another way to make custom types is to create a class that extends the base `Type` class and implement the `check` method.
+Then it can be used for both static and runtime checks.
+Any TS type can be used for the `T` parameter in `Type<T>`.
 
 ```js
 // 1. Create the type class
@@ -294,11 +360,15 @@ Create a class that extends the base `Type` class and implement the `check` meth
  */
 class RegexType extends Type {
   constructor() {
+    // Define the name of the type in the base class
+    // It will be used in error messages
     super('regex');
   }
 
   /** @type {Type["check"]} */
   check(value, check) {
+    // See the `Check` class in `check.js`
+    // for other check methods
     check.instanceOf(value, RegExp);
   }
 }
@@ -316,17 +386,81 @@ class ExampleShape {
 // 4. Perform a validation check on a variable of any type
 
 /** @type {any} */
-const maybeExample = {
+const data = {
   type: 'test',
   format: /test/,
 };
 
-const example = parse(maybeExample);
+const example = parse(data, ExampleShape);
 example; // type: {type: string, format: RegExp}
+```
+
+## Inheritance
+
+Shapes can simply extend other shapes.
+
+```js
+class SpecialUserType extends UserType {
+  specialProperty = record(string, number);
+}
+
+const data = JSON.parse(
+  '{"name": "Toto", "age": 12, "specialProperty": {"count1": 42}}'
+);
+
+const specialUser = parse(data, SpecialUserType);
+
+console.log(specialUser);
+```
+
+As types are JS values, they can be manipulated to create new types.
+
+```js
+const dayOfWeek = enumeration('mon', 'tue', 'wed', 'thu', 'fri');
+const weekendDay = enumeration('sat', 'sun');
+const dayType = enumeration(...dayOfWeek.values, ...weekendDay.values);
+
+let data = 'sun'; // type: string
+
+const day = parse(data, dayType);
+day; // type: "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun"
+```
+
+## Generic types
+
+Simple JS functions can be used to define a type that takes another type as parameter.
+
+```js
+/**
+ * @template {AnyTypeOrShape} T
+ * @param {T} type
+ */
+function box(type) {
+  return class BoxShape {
+    value = option(type);
+  };
+}
+
+// Usage in an example shape
+
+class ExampleShape {
+  name = string;
+  boxedAge = box(number);
+}
+
+class Example extends Sculpt(ExampleShape) {}
+
+/** @type {Example} */
+const example = {
+  name: 'Toto',
+  boxedAge: {value: 12},
+};
 ```
 
 ## User quotes
 
-"From the earth, comes our strength. From the mountains, our resilience.
+_"From the earth, comes our strength. From the mountains, our resilience.
 Our bodies are forged from stone in the unending fires fueled by our
-determination." - Magni Bronzebeard, World of Warcraft
+determination."_ - Magni Bronzebeard, World of Warcraft
+
+_"Let's go!"_ - Blupi, Planet Blupi
