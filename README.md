@@ -157,6 +157,18 @@ This section describe the different stones that can be used. It gives their corr
 
 `*` deep check is more complicated than a one liner.
 
+**Extra types**
+
+| Stone      | TypeScript type | Stone type     | Example                    |
+| ---------- | --------------- | -------------- | -------------------------- |
+| dateTime   | string          | DateTimeType   | "2020-12-31T23:59:59.000Z" |
+| date       | string          | DateType       | "2020-12-31"               |
+| percentage | \`\${number}%\` | PercentageType | "42%"                      |
+| time       | string          | TimeType       | "23:59:59.000Z"            |
+| yearMonth  | string          | YearMonthType  | "2020-12"                  |
+
+Date and time types are represented as string because the main goal is to validate external JSON data.
+
 ## Type checking
 
 ### Static type checking
