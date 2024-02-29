@@ -147,7 +147,7 @@ This section describe the different stones that can be used. It gives their corr
 | enumeration("A","B") | "A" \| "B"                | EnumerationType  | ["A","B"].includes(x)          |
 | union(A,B)           | A \| B                    | UnionType        | checkA \|\| checkB             |
 | intersection(A,B)    | A & B                     | IntersectionType | checkA && checkB               |
-| type                 | Type                      | TypeType         | x instanceof Type              |
+| type                 | Type (stones base class)  | TypeType         | x instanceof Type              |
 | func                 | Function                  | FunctionType     | typeof x === 'function'        |
 | instance(T)          | new (...args: any) => any | InstanceType     | x instanceof T                 |
 | set(T)               | Set<T>                    | SetType          | `*` x instanceof Set           |
@@ -198,10 +198,13 @@ const data = JSON.parse('{"name": "Toto", "age": 12}');
 
 #### parse
 
-`parse(value: any, type: AnyTypeOrShape)`
+```ts
+parse(value: any, type: AnyTypeOrShape) : T
+```
 
 This function throws an error if the value has the wrong type.
 The error has a precise description of which part of the object doesn't match the shape.
+In return, `parse` gives back the input value but as a typed value.
 
 ```js
 const {parse} = require('xcraft-core-stones');
@@ -226,7 +229,9 @@ const user2 = parse(wrongData, UserShape);
 
 #### validate
 
-`validate(value: any, type: AnyTypeOrShape)`
+```ts
+validate(value: any, type: AnyTypeOrShape) : boolean
+```
 
 Returns `true` if the value has the right type. Returns `false` otherwise.
 In addition it narrows the type of the value given to the function.
@@ -243,13 +248,13 @@ if (validate(data, UserShape)) {
 
 #### checkType
 
-```
-checkType<T extends AnyTypeOrShape>(value: any, type: T):
-  {ok:true, value:t<T>} |
-  {ok:false, errors: CheckError[], errorMessage: string}
+```ts
+checkType(value: any, type: AnyTypeOrShape) :
+  {ok:true, value:T} |
+  {ok:false, errors:CheckError[], errorMessage:string}`
 ```
 
-Returns the typed value if the value has the right type or an error message otherwise.
+Returns an object with `ok: true | false`, and the typed value if the value has the right type or an error message otherwise.
 
 ```js
 const {checkType} = require('xcraft-core-stones');
