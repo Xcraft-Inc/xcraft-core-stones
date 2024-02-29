@@ -173,12 +173,16 @@ Date and time types are represented as string because the main goal is to valida
 
 ### Static type checking
 
+It gives hints about the correctness of the program before it is run.
+
 - In VSCodium editor, add `// @ts-check` at the top of a file to enable static type checks. Mouse over a variable will show its type.
 - The TypeScript checker can also be run from the command-line with `npx -p typescript tsc --noEmit --allowJs --checkJs --target esnext --skipLibCheck my-file.js`.
 
 ### Runtime validation
 
-All the examples are done with this simple shape.
+It allows to check that some JS value is of a specified type at runtime.
+
+The following examples are all done with this simple shape.
 
 ```js
 // @ts-check
@@ -196,7 +200,7 @@ const data = JSON.parse('{"name": "Toto", "age": 12}');
 
 `parse(value: any, type: AnyTypeOrShape)`
 
-Throws an error if the value has the wrong type.
+This function throws an error if the value has the wrong type.
 The error has a precise description of which part of the object doesn't match the shape.
 
 ```js
@@ -513,7 +517,7 @@ class ListShape {
 }
 ```
 
-It's still possible to define them in JSdoc.
+It's still possible to define them in JSDoc.
 
 ```js
 /**
