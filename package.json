@@ -1,6 +1,6 @@
 {
   "name": "xcraft-core-stones",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "description": "Base data types",
   "main": "index.js",
   "scripts": {
