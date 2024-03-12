@@ -26,6 +26,7 @@ module.exports = {
   ...require('./extra-types/year-month.js'),
   ...require('./check.js'),
   checkType: require('./check-type.js'),
+  ...require('./filter-optional.js'),
   ...require('./get-type-instance.js'),
   parse: require('./parse.js'),
   ...require('./sculpt.js'),
