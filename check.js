@@ -261,9 +261,10 @@ class Check {
   /**
    * @param {any} actual
    * @param {ObjectShape} expectedShape
+   * @param {boolean} [strict]
    * @returns {boolean}
    */
-  shape(actual, expectedShape) {
+  shape(actual, expectedShape, strict = true) {
     const check = new Check({type: this.currentType, path: this.currentPath});
 
     if (!check.object(actual)) {
@@ -271,10 +272,12 @@ class Check {
       return false;
     }
 
-    for (const propertyName of Object.keys(actual)) {
-      check.true(propertyName in expectedShape, 'unexpected-property', {
-        propertyName,
-      });
+    if (strict) {
+      for (const propertyName of Object.keys(actual)) {
+        check.true(propertyName in expectedShape, 'unexpected-property', {
+          propertyName,
+        });
+      }
     }
 
     for (const [key, subType] of Object.entries(expectedShape)) {

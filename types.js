@@ -273,7 +273,15 @@ class IntersectionType extends Type {
 
   /** @type {Type["check"]} */
   check(value, check) {
-    throw new Error('Not implemented');
+    const {getTypeInstance} = require('./get-type-instance.js');
+    for (const subType of this.types) {
+      const type = getTypeInstance(subType);
+      if (type instanceof ObjectType) {
+        check.shape(value, type.properties, false);
+      } else {
+        check.type(value, subType);
+      }
+    }
   }
 }
 
