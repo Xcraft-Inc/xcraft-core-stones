@@ -179,7 +179,7 @@ class AnyType extends Type {
 // ## Functions to differentiate types ##
 
 /**
- * @param {AnyTypeOrShape} type
+ * @param {any} type
  * @returns {type is AnyType}
  */
 function isAnyType(type) {
