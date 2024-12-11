@@ -43,6 +43,11 @@ class Type {
     check;
     throw new Error("Method 'check' must be implemented");
   }
+
+  /** @type {(...args: any) => any} */
+  map() {
+    return this;
+  }
 }
 
 /**

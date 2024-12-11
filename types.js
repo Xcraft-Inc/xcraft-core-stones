@@ -108,6 +108,10 @@ class OptionType extends Type {
       check.type(value, this.subType);
     }
   }
+
+  map(f) {
+    return new OptionType(f(this.subType));
+  }
 }
 
 /**
@@ -136,6 +140,10 @@ class ArrayType extends Type {
         return;
       }
     }
+  }
+
+  map(f) {
+    return new ArrayType(f(this.valuesType));
   }
 }
 
@@ -169,6 +177,10 @@ class TupleType extends Type {
       check.typeWithPath(item, type, index);
     }
   }
+
+  map(f) {
+    return new TupleType(this.types.map(f));
+  }
 }
 
 /**
@@ -188,6 +200,18 @@ class ObjectType extends Type {
   /** @type {Type["check"]} */
   check(value, check) {
     check.shape(value, this.properties);
+  }
+
+  map(f) {
+    return new ObjectType(
+      this.name,
+      Object.fromEntries(
+        Object.entries(this.properties).map(([key, subType]) => [
+          key,
+          f(subType),
+        ])
+      )
+    );
   }
 }
 
@@ -233,6 +257,10 @@ class UnionType extends Type {
   /** @type {Type["check"]} */
   check(value, check) {
     check.oneOfTypes(value, this.types);
+  }
+
+  map(f) {
+    return new UnionType(this.types.map(f));
   }
 
   /**
@@ -282,6 +310,10 @@ class IntersectionType extends Type {
         check.type(value, subType);
       }
     }
+  }
+
+  map(f) {
+    return new IntersectionType(this.types.map(f));
   }
 }
 
@@ -363,6 +395,10 @@ class SetType extends Type {
       check.typeWithPath(v, this.valuesType, '[]');
     }
   }
+
+  map(f) {
+    return new SetType(f(this.valuesType));
+  }
 }
 
 /**
@@ -397,6 +433,10 @@ class MapType extends Type {
       check.typeWithPath(v, this.valuesType, k);
     }
   }
+
+  map(f) {
+    return new MapType(f(this.keysType), f(this.valuesType));
+  }
 }
 
 /**
@@ -426,6 +466,9 @@ class ObjectMapType extends Type {
     for (const [k, v] of Object.entries(value)) {
       check.typeWithPath(v, this.valuesType, k);
     }
+  }
+  map(f) {
+    return new ObjectMapType(f(this.valuesType));
   }
 }
 
@@ -460,6 +503,10 @@ class RecordType extends Type {
       check.typeWithPath(v, this.valuesType, k);
       check.typeWithPath(k, this.keysType, `[${k}]`);
     }
+  }
+
+  map(f) {
+    return new RecordType(f(this.keysType), f(this.valuesType));
   }
 }
 
