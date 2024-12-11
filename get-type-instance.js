@@ -36,6 +36,11 @@ function getTypeInstance(typeOrShape) {
   return object(typeOrShape);
 }
 
+function getTypeInstanceRecursive(typeOrShape) {
+  const newType = getTypeInstance(typeOrShape);
+  return newType.map(getTypeInstanceRecursive);
+}
+
 /**
  * @template {AnyObjectShape} T
  * @param {T} typeOrShape
@@ -59,4 +64,4 @@ function toObjectType(typeOrShape) {
   return object(typeOrShape);
 }
 
-module.exports = {getTypeInstance, toObjectType};
+module.exports = {getTypeInstance, getTypeInstanceRecursive, toObjectType};
