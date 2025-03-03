@@ -21,6 +21,7 @@ class Type {
    *
    * @type {T}
    */
+  /* eslint-disable-next-line no-unused-private-class-members */
   #type;
 
   /**
