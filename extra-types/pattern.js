@@ -31,6 +31,9 @@ class PatternType extends Type {
     if (!pattern) {
       throw new Error(`Missing pattern in ${this.name}`);
     }
+    if (!check.typeOf(value, 'string')) {
+      return;
+    }
     check.true(pattern.test(value), 'bad pattern', {
       actual: value,
       expectedPattern: pattern.toString(),
