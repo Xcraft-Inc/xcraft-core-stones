@@ -24,6 +24,7 @@ module.exports = {
   ...require('./extra-types/percentage.js'),
   ...require('./extra-types/time.js'),
   ...require('./extra-types/year-month.js'),
+  ...require('./extra-types/zoned-date-time.js'),
   ...require('./check.js'),
   checkType: require('./check-type.js'),
   ...require('./filter-optional.js'),
