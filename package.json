@@ -10,7 +10,12 @@
     "type": "git",
     "url": "git+https://github.com/Xcraft-Inc/xcraft-core-stones.git"
   },
-  "author": "",
+  "author": "Epsitec SA",
+  "contributors": [
+    "Yannick Vessaz <vessaz@epsitec.ch>",
+    "Mathieu Schroeter <schroeter@epsitec.ch>",
+    "Gillian Fries <fries@epsitec.ch>"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Xcraft-Inc/xcraft-core-stones/issues"
