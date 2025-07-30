@@ -39,11 +39,12 @@ class BooleanType extends Type {
 }
 
 /**
- * @extends {Type<string>}
+ * @template {string} [T=string]
+ * @extends {Type<T>}
  */
 class StringType extends Type {
-  constructor() {
-    super('string');
+  constructor(name = 'string') {
+    super(name);
   }
 
   /** @type {Type["check"]} */
@@ -543,7 +544,11 @@ const any = new AnyType();
 
 const boolean = new BooleanType();
 
-const string = new StringType();
+// const string = new StringType() displays unneeded default type parameter`
+const string = ((BaseStringType) => {
+  class StringType extends BaseStringType {}
+  return new StringType();
+})(StringType);
 
 const number = new NumberType();
 
