@@ -40,8 +40,6 @@ class Type {
    * @param {Check} check
    */
   check(value, check) {
-    value;
-    check;
     throw new Error("Method 'check' must be implemented");
   }
 
