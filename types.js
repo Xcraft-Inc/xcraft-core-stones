@@ -552,13 +552,11 @@ const string = ((BaseStringType) => {
 
 const number = new NumberType();
 
-// This notation does not support "const" parameter
-// /**
-//  * @template  T
-//  * @param {T} value
-//  * @returns {ValueType<T>}
-//  */
-/** @type {<const T>(value: T) => ValueType<T>} */
+/**
+ * @template const T
+ * @param {T} value
+ * @returns {ValueType<T>}
+ */
 const value = (value) => new ValueType(value);
 
 /**
