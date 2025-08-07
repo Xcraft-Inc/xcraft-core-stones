@@ -64,4 +64,31 @@ function toObjectType(typeOrShape) {
   return object(typeOrShape);
 }
 
-module.exports = {getTypeInstance, getTypeInstanceRecursive, toObjectType};
+/**
+ * @template {AnyObjectShape} T
+ * @param {T} typeOrShape
+ * @returns {GetShape<T>}
+ */
+function toObjectShape(typeOrShape) {
+  // AnyType
+  if (typeOrShape instanceof ObjectType) {
+    return typeOrShape.properties;
+  }
+
+  // Class shape
+  if (isClassShape(typeOrShape)) {
+    // @ts-ignore
+    return new typeOrShape();
+  }
+
+  // Object shape
+  // @ts-ignore
+  return typeOrShape;
+}
+
+module.exports = {
+  getTypeInstance,
+  getTypeInstanceRecursive,
+  toObjectType,
+  toObjectShape,
+};
