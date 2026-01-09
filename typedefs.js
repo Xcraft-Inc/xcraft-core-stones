@@ -25,7 +25,7 @@
  * @typedef {import("./types.js").AnyObjectShape} AnyObjectShape
  */
 /**
- * @template T
+ * @template {ObjectShape} T
  * @typedef {import("./types.js").ObjectType<T>} ObjectType
  */
 
