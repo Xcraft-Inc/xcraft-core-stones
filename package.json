@@ -4,7 +4,8 @@
   "description": "Base data types",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test-types": "npx --package=typescript -- tsc --noEmit --skipLibCheck -p jsconfig.test.json"
   },
   "repository": {
     "type": "git",
