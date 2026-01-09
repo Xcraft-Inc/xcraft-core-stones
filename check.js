@@ -64,7 +64,7 @@ class Check {
    */
   #completeError(error) {
     let path;
-    if (error.path !== undefined) {
+    if (error.path) {
       path = [...this.currentPath, ...error.path];
     } else {
       path = this.currentPath;
