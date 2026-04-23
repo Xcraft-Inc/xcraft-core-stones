@@ -25,6 +25,18 @@ const fullTypeName = require('./full-type-name.js');
 const setProtoAndProps = require('./set-proto-and-props.js');
 
 /**
+ * @extends {Type<unknown>}
+ */
+class UnknownType extends Type {
+  constructor() {
+    super('unknown');
+  }
+
+  /** @type {Type["check"]} */
+  check() {}
+}
+
+/**
  * @extends {Type<boolean>}
  */
 class BooleanType extends Type {
@@ -542,6 +554,8 @@ class AnyObjectType extends Type {
 
 const any = new AnyType();
 
+const unknown = new UnknownType();
+
 const boolean = new BooleanType();
 
 // const string = new StringType() displays unneeded default type parameter`
@@ -653,6 +667,7 @@ const record = (keysType, valuesType) => new RecordType(keysType, valuesType);
 
 module.exports = {
   AnyType,
+  UnknownType,
   BooleanType,
   StringType,
   NumberType,
@@ -672,6 +687,7 @@ module.exports = {
   RecordType,
 
   any,
+  unknown,
   boolean,
   string,
   number,
