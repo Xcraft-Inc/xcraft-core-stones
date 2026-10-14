@@ -5,12 +5,13 @@
 
 const {Type} = require('../base-types.js');
 const parse = require('../parse.js');
+const {StringType} = require('../types.js');
 
 /**
- * @template T
- * @extends {Type<T>}
+ * @template {string} T
+ * @extends {StringType<T>}
  */
-class PatternType extends Type {
+class PatternType extends StringType {
   name = this.constructor.name;
   pattern;
 
